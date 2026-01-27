@@ -529,10 +529,189 @@ party_request = party_service_pb2.<span class="code-function">AllocatePartyReque
             </div>
         </section>
 
+        <!-- KEY APIS & SDKs -->
+        <section id="apis-sdks">
+            <div class="section-header">
+                <div class="section-label">04 / KEY APIS & SDKs</div>
+                <h2 class="section-title">Canton Network API Ecosystem</h2>
+                <p class="section-description">
+                    Beyond the Ledger API, Canton Network provides specialized APIs for wallets, dApps, scanning, and validator operations.
+                </p>
+            </div>
+
+            <!-- Wallet SDK -->
+            <div class="flow-step">
+                <div class="flow-step-number">💼</div>
+                <div class="flow-step-content">
+                    <h3>Wallet SDK</h3>
+                    <p><strong>For wallet providers and exchanges integrating Canton Coin</strong></p>
+                    <ul>
+                        <li>Full wallet functionality (send, receive, balance)</li>
+                        <li>External signing support for secure key management</li>
+                        <li>Transfer preapprovals for recurring payments</li>
+                        <li>Party hosting and management</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="code-comment">// Install Wallet SDK</span>
+npm install @canton-network/wallet-sdk
+
+<span class="code-comment">// Or for dApp development only (smaller bundle)</span>
+npm install @canton-network/dapp-sdk</code></pre>
+                    </div>
+                    <p style="margin-top: 15px;">
+                        📚 <a href="https://docs.digitalasset.com/integrate/devnet/integrating-with-canton-network/" target="_blank" style="color: var(--accent); text-decoration: underline;">Integration Guide</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Scan API -->
+            <div class="flow-step">
+                <div class="flow-step-number">🔍</div>
+                <div class="flow-step-content">
+                    <h3>Scan API</h3>
+                    <p><strong>Public API for network data and Canton Coin information</strong></p>
+                    <ul>
+                        <li>Query active mining rounds and Canton Coin prices</li>
+                        <li>Get ANS (Amulet Name Service) entries</li>
+                        <li>View validator licenses and network participants</li>
+                        <li>Access DSO party and synchronizer information</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="code-comment"># Get Canton Coin price from open mining round</span>
+curl -X POST https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/open-and-issuing-mining-rounds \
+  -H <span class="code-string">"Content-Type: application/json"</span> \
+  -d <span class="code-string">"{}"</span></code></pre>
+                    </div>
+                    <p style="margin-top: 15px;">
+                        📚 <a href="https://docs.sync.global/app_dev/scan_api/" target="_blank" style="color: var(--accent); text-decoration: underline;">Scan API Documentation</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Validator API -->
+            <div class="flow-step">
+                <div class="flow-step-number">🎛️</div>
+                <div class="flow-step-content">
+                    <h3>Validator API</h3>
+                    <p><strong>REST API for validator node and wallet operations</strong></p>
+                    <ul>
+                        <li>User wallet management and operations</li>
+                        <li>Buy traffic for synchronizer fees (paid in Canton Coin)</li>
+                        <li>ANS (Amulet Name Service) operations</li>
+                        <li>Scan proxy for BFT reads (Byzantine Fault Tolerant)</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="code-comment"># Create transfer offer (Validator API)</span>
+POST /v0/wallet/transfer-offers
+Authorization: Bearer &lt;JWT&gt;
+
+<span class="code-comment"># Buy traffic for validator</span>
+POST /v0/wallet/buy-traffic-requests</code></pre>
+                    </div>
+                    <p style="margin-top: 15px;">
+                        📚 <a href="https://docs.sync.global/app_dev/validator_api/" target="_blank" style="color: var(--accent); text-decoration: underline;">Validator API Documentation</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- dApp API -->
+            <div class="flow-step">
+                <div class="flow-step-number">🔗</div>
+                <div class="flow-step-content">
+                    <h3>dApp API (Wallet Gateway)</h3>
+                    <p><strong>Standard interface for dApp-to-wallet communication</strong></p>
+                    <ul>
+                        <li>Connect wallets to dApps securely</li>
+                        <li>Request transaction signing from users</li>
+                        <li>Token Standard (CIP-0056) integration</li>
+                        <li>External party onboarding and management</li>
+                    </ul>
+                    <div class="code-block">
+<pre><code><span class="code-comment">// dApp requests wallet connection</span>
+<span class="code-keyword">const</span> wallet = <span class="code-keyword">await</span> walletGateway.<span class="code-function">connect</span>();
+
+<span class="code-comment">// Request transaction signature</span>
+<span class="code-keyword">const</span> signed = <span class="code-keyword">await</span> wallet.<span class="code-function">signTransaction</span>(tx);</code></pre>
+                    </div>
+                    <p style="margin-top: 15px;">
+                        📚 <a href="https://github.com/hyperledger-labs/splice-wallet-kernel" target="_blank" style="color: var(--accent); text-decoration: underline;">Wallet Kernel GitHub</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-title">🔑 API AUTHENTICATION</div>
+                <p>
+                    All Canton Network APIs require JWT token authentication. Tokens must include:
+                </p>
+                <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                    <li><code>sub</code>: Ledger API user ID (party identifier)</li>
+                    <li><code>aud</code>: Audience (API endpoint)</li>
+                    <li><code>scope</code>: Optional scope (e.g., <code>daml_ledger_api</code>)</li>
+                </ul>
+                <p style="margin-top: 10px;">
+                    Pass tokens as: <code>Authorization: Bearer &lt;token&gt;</code>
+                </p>
+            </div>
+
+            <h3 style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 32px; margin: 60px 0 30px;">API Comparison</h3>
+            
+            <div class="data-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>API</th>
+                            <th>Purpose</th>
+                            <th>Who Uses It</th>
+                            <th>Key Features</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ledger API</strong><br/><span style="color: var(--text-dim); font-size: 14px;">JSON/gRPC</span></td>
+                            <td>Core contract operations</td>
+                            <td>Application developers</td>
+                            <td>Query contracts, submit transactions, stream updates</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Wallet SDK</strong></td>
+                            <td>Wallet integration</td>
+                            <td>Wallet providers, exchanges</td>
+                            <td>Canton Coin transfers, party hosting, external signing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Scan API</strong></td>
+                            <td>Public network data</td>
+                            <td>Block explorers, analytics apps</td>
+                            <td>Canton Coin data, ANS, validator info, mining rounds</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Validator API</strong></td>
+                            <td>Validator & wallet operations</td>
+                            <td>Validator operators, wallet apps</td>
+                            <td>User management, traffic purchase, ANS operations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Admin API</strong></td>
+                            <td>Node management</td>
+                            <td>Validator operators</td>
+                            <td>Party creation, topology transactions, synchronizer connection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>dApp API</strong></td>
+                            <td>Wallet-dApp bridge</td>
+                            <td>dApp developers</td>
+                            <td>Wallet connection, transaction signing, Token Standard</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         <!-- DEVELOPER JOURNEY -->
         <section id="journey">
             <div class="section-header">
-                <div class="section-label">04 / DEVELOPER JOURNEY</div>
+                <div class="section-label">05 / DEVELOPER JOURNEY</div>
                 <h2 class="section-title">From Zero to Production</h2>
                 <p class="section-description">
                     The complete path: learn fundamentals → local development → DevNet testing → MainNet deployment
@@ -756,6 +935,8 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                         <li>Slack: #gsf-global-synchronizer-appdev</li>
                         <li>Slack: #validator-operations</li>
                         <li>GitHub: digital-asset repos</li>
+                        <li>Mailing list: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2650474a4f42475249540b4748484953484543664a4f55525508555f484508414a4944474a">[email&#160;protected]</a></li>
+                        <li>Discord: Canton community</li>
                     </ul>
                 </div>
             </div>
@@ -764,7 +945,7 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
         <!-- COMPARISON WITH OTHER BLOCKCHAINS -->
         <section>
             <div class="section-header">
-                <div class="section-label">05 / COMPARISON</div>
+                <div class="section-label">06 / COMPARISON</div>
                 <h2 class="section-title">Canton vs. Traditional Blockchains</h2>
             </div>
 
