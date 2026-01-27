@@ -445,26 +445,43 @@ newAssetCid <- <span class="code-keyword">submit</span> alice <span class="code-
 
             <div class="code-tab-content active" id="json-api">
                 <div class="code-block">
-<pre><code><span class="code-comment">// Example: Query active contracts via JSON API</span>
-<span class="code-keyword">const</span> response = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'https://validator:7575/v1/stream/query'</span>, {
+<pre><code><span class="code-comment">// Example: Query active contracts via JSON Ledger API V2</span>
+<span class="code-keyword">const</span> response = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'http://localhost:8080/v2/state/active-contracts'</span>, {
   <span class="code-keyword">method</span>: <span class="code-string">'POST'</span>,
   <span class="code-keyword">headers</span>: { 
     <span class="code-string">'Authorization'</span>: <span class="code-string">`Bearer ${token}`</span>,
     <span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>
   },
   <span class="code-keyword">body</span>: <span class="code-function">JSON.stringify</span>({
-    <span class="code-string">'%templates'</span>: [<span class="code-string">'MyApp:Asset'</span>]
+    <span class="code-string">"filter"</span>: {
+      <span class="code-string">"filtersForAnyParty"</span>: {
+        <span class="code-string">"cumulative"</span>: [{
+          <span class="code-string">"identifierFilter"</span>: { <span class="code-string">"WildcardFilter"</span>: { <span class="code-string">"value"</span>: {} } }
+        }]
+      }
+    },
+    <span class="code-string">"activeAtOffset"</span>: <span class="code-number">0</span>
   })
 });
 
-<span class="code-comment">// Exercise a choice</span>
-<span class="code-keyword">const</span> result = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'https://validator:7575/v1/exercise'</span>, {
+<span class="code-comment">// Exercise a choice via submit-and-wait</span>
+<span class="code-keyword">const</span> result = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'http://localhost:8080/v2/commands/submit-and-wait'</span>, {
   <span class="code-keyword">method</span>: <span class="code-string">'POST'</span>,
+  <span class="code-keyword">headers</span>: {
+    <span class="code-string">'Authorization'</span>: <span class="code-string">`Bearer ${token}`</span>,
+    <span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>
+  },
   <span class="code-keyword">body</span>: <span class="code-function">JSON.stringify</span>({
-    <span class="code-string">'templateId'</span>: <span class="code-string">'MyApp:Asset'</span>,
-    <span class="code-string">'contractId'</span>: assetCid,
-    <span class="code-string">'choice'</span>: <span class="code-string">'Transfer'</span>,
-    <span class="code-string">'argument'</span>: { <span class="code-string">'newOwner'</span>: bobParty }
+    <span class="code-string">"actAs"</span>: [<span class="code-string">"Alice::1220..."</span>],
+    <span class="code-string">"userId"</span>: <span class="code-string">"app1"</span>,
+    <span class="code-string">"commands"</span>: [{
+      <span class="code-string">"ExerciseCommand"</span>: {
+        <span class="code-string">"choice"</span>: <span class="code-string">"Transfer"</span>,
+        <span class="code-string">"choiceArgument"</span>: { <span class="code-string">"newOwner"</span>: <span class="code-string">"Bob::1220..."</span> },
+        <span class="code-string">"contractId"</span>: <span class="code-string">"00abc..."</span>,
+        <span class="code-string">"templateId"</span>: <span class="code-string">"#MyApp:Asset:Asset"</span>
+      }
+    }]
   })
 });</code></pre>
                 </div>
@@ -472,32 +489,33 @@ newAssetCid <- <span class="code-keyword">submit</span> alice <span class="code-
 
             <div class="code-tab-content" id="grpc-api">
                 <div class="code-block">
-<pre><code><span class="code-comment">// Example: Connect to gRPC Ledger API (Python)</span>
+<pre><code><span class="code-comment"># Example: Connect to gRPC Ledger API V2 (Python)</span>
 <span class="code-keyword">import</span> grpc
-<span class="code-keyword">from</span> com.daml.ledger.api.v1 <span class="code-keyword">import</span> ledger_identity_service_pb2_grpc
+<span class="code-keyword">from</span> com.daml.ledger.api.v2 <span class="code-keyword">import</span> update_service_pb2_grpc
+<span class="code-keyword">from</span> com.daml.ledger.api.v2 <span class="code-keyword">import</span> state_service_pb2_grpc
 
 <span class="code-comment"># Connect to validator gRPC endpoint</span>
 channel = grpc.<span class="code-function">insecure_channel</span>(<span class="code-string">'localhost:6865'</span>)
-identity_client = ledger_identity_service_pb2_grpc.<span class="code-function">LedgerIdentityServiceStub</span>(channel)
 
-<span class="code-comment"># Get ledger identity</span>
-ledger_id = identity_client.<span class="code-function">GetLedgerIdentity</span>(
-    ledger_identity_service_pb2.<span class="code-function">GetLedgerIdentityRequest</span>()
-).ledger_id
+<span class="code-comment"># Use Update Service to stream transactions</span>
+update_client = update_service_pb2_grpc.<span class="code-function">UpdateServiceStub</span>(channel)
 
-<span class="code-comment"># Submit transaction via command service</span>
-<span class="code-comment"># High-performance streaming for real-time updates</span></code></pre>
+<span class="code-comment"># Get active contracts using State Service</span>
+state_client = state_service_pb2_grpc.<span class="code-function">StateServiceStub</span>(channel)
+
+<span class="code-comment"># High-performance streaming for real-time updates</span>
+<span class="code-comment"># Supports Command, Update, and State services</span></code></pre>
                 </div>
             </div>
 
             <div class="code-tab-content" id="admin-api">
                 <div class="code-block">
-<pre><code><span class="code-comment">// Example: Admin API - Party creation (Python)</span>
+<pre><code><span class="code-comment"># Example: Admin API - Party management (Python)</span>
 <span class="code-keyword">import</span> grpc
 <span class="code-keyword">from</span> com.digitalasset.canton.admin.participant.v30 <span class="code-keyword">import</span> party_service_pb2
 
-<span class="code-comment"># Connect to admin API</span>
-admin_channel = grpc.<span class="code-function">insecure_channel</span>(<span class="code-string">'localhost:4002'</span>)
+<span class="code-comment"># Connect to admin API (port from config, default often 14012)</span>
+admin_channel = grpc.<span class="code-function">insecure_channel</span>(<span class="code-string">'localhost:14012'</span>)
 
 <span class="code-comment"># Allocate a new party</span>
 party_request = party_service_pb2.<span class="code-function">AllocatePartyRequest</span>(
@@ -505,7 +523,8 @@ party_request = party_service_pb2.<span class="code-function">AllocatePartyReque
     display_name=<span class="code-string">'Alice'</span>
 )
 
-<span class="code-comment"># Used for topology management and validator administration</span></code></pre>
+<span class="code-comment"># Note: Admin API is for validator operations & management</span>
+<span class="code-comment"># Use Ledger API (JSON/gRPC) for application development</span></code></pre>
                 </div>
             </div>
         </section>
@@ -737,8 +756,6 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                         <li>Slack: #gsf-global-synchronizer-appdev</li>
                         <li>Slack: #validator-operations</li>
                         <li>GitHub: digital-asset repos</li>
-                        <li>Mailing list: validator-announce@lists.sync.global</li>
-                        <li>Discord: Canton community</li>
                     </ul>
                 </div>
             </div>
