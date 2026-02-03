@@ -87,9 +87,9 @@
             </div>
 
             <div class="info-box">
-                <div class="info-box-title">🔑 KEY DIFFERENCE FROM OTHER BLOCKCHAINS</div>
+                <div class="info-box-title">KEY DIFFERENCE FROM OTHER BLOCKCHAINS</div>
                 <p>
-                    In Ethereum/Bitcoin, all state and transactions are replicated to all nodes. In Canton, 
+                    In Ethereum/Solana, all state and transactions are replicated to all nodes. In Canton, 
                     state and transactions are distributed ONLY to validators specified in the smart contracts. 
                     This is privacy by design at the protocol level.
                 </p>
@@ -101,8 +101,8 @@
                 <div class="network-layer">
                     <div class="network-node accent">
                         <h4>Global Synchronizer</h4>
-                        <p>BFT consensus layer</p>
-                        <p style="margin-top: 8px; color: var(--accent); font-weight: 700;">sync.global</p>
+                        <p>Canton Foundation layer</p>
+                        <p style="margin-top: 8px; color: var(--accent); font-weight: 700;">canton.foundation</p>
                     </div>
                 </div>
                 <div style="text-align: center; color: var(--text-dim); font-size: 11px;">↕ encrypted messages</div>
@@ -132,13 +132,13 @@
                 <div class="section-label">02 / VALIDATOR ONBOARDING</div>
                 <h2 class="section-title">Getting Your Validator Live</h2>
                 <p class="section-description">
-                    The complete flow from application to MainNet. Currently invite-only: you need approval from 
+                    The complete flow from application to MainNet. Currently you need approval from 
                     existing Super Validators, Validators, or Canton Foundation.
                 </p>
             </div>
 
             <div class="info-box warning">
-                <div class="info-box-title">⚠️ CURRENT PHASE: INVITE-ONLY</div>
+                <div class="info-box-title">CURRENT PHASE</div>
                 <p>
                     New validators must be approved following a request from an existing Super Validator, Validator, 
                     application provider, or Foundation member. Apply via the Foundation form or contact a sponsor.
@@ -155,7 +155,6 @@
                     <div class="tags">
                         <span class="tag">MANUAL PROCESS</span>
                         <span class="tag">2-3 WEEKS</span>
-                        <span class="tag">REQUIRES SPONSOR</span>
                     </div>
                 </div>
 
@@ -195,7 +194,6 @@
                     </p>
                     <div class="tags">
                         <span class="tag">DEVNET</span>
-                        <span class="tag">NO LIMITS ON APPROVALS</span>
                         <span class="tag">TESTING ENVIRONMENT</span>
                     </div>
                 </div>
@@ -221,7 +219,7 @@
                     <div class="tags">
                         <span class="tag">MAINNET</span>
                         <span class="tag">PRODUCTION</span>
-                        <span class="tag">EARN CANTON COIN</span>
+                        <span class="tag">EARN REWARDS</span>
                     </div>
                 </div>
             </div>
@@ -230,24 +228,21 @@
             
             <div class="comparison">
                 <div class="comparison-card">
-                    <h3><span class="icon">🏢</span> Self-Hosted</h3>
+                    <h3><span class="icon">1</span> Self-Hosted</h3>
                     <ul>
-                        <li>Deploy in your data center or cloud</li>
+                        <li>Deploy YOURSELF</li>
                         <li>Full control over infrastructure</li>
-                        <li>Must maintain DevNet, TestNet, MainNet nodes</li>
-                        <li>Join #validator-operations on Slack</li>
-                        <li>Minimal hardware requirements</li>
+                        <li>Maintain Network Nodes</li>
                     </ul>
                 </div>
 
                 <div class="comparison-card">
-                    <h3><span class="icon">☁️</span> Node-as-a-Service (NaaS)</h3>
+                    <h3><span class="icon">2</span> Node-as-a-Service (NaaS)</h3>
                     <ul>
                         <li>Pre-integrated NaaS providers available</li>
-                        <li>Turnkey deployment & management</li>
                         <li>Providers handle infrastructure overhead</li>
                         <li>Costs vary (some charge up to 85% of rewards)</li>
-                        <li>13 standalone Super Validators can issue onboarding secrets</li>
+                        <li>Standalone Super Validators can issue onboarding secrets</li>
                     </ul>
                 </div>
             </div>
@@ -391,48 +386,34 @@ newAssetCid <- <span class="code-keyword">submit</span> alice <span class="code-
                 </tbody>
             </table>
 
-            <div class="info-box">
-                <div class="info-box-title">🔐 PRIVACY MODEL</div>
-                <p>
-                    <strong>Principle 1:</strong> Parties see actions they have a stake in (as signatory, observer, or controller)<br>
-                    <strong>Principle 2:</strong> Every party that sees an action sees its transitive consequences<br>
-                    This enables independent verification while preserving privacy on a need-to-know basis.
-                </p>
-            </div>
-
             <h3 style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 24px; margin: 60px 0 20px;">Accessing the Ledger</h3>
 
             <div class="comparison">
                 <div class="comparison-card highlight">
-                    <h3><span class="icon">🔌</span> JSON Ledger API</h3>
+                    <h3>JSON Ledger API</h3>
                     <ul>
                         <li>REST-style HTTP API for ledger access</li>
-                        <li>Query active contracts by template</li>
-                        <li>Exercise choices via HTTP POST</li>
-                        <li>Subscribe to contract streams</li>
-                        <li>TypeScript/JavaScript SDKs available</li>
+                        <li>TypeScript SDKs available</li>
                     </ul>
                 </div>
 
                 <div class="comparison-card">
-                    <h3><span class="icon">⚡</span> gRPC Ledger API</h3>
+                    <h3>gRPC Ledger API</h3>
                     <ul>
                         <li>High-performance gRPC interface</li>
                         <li>Bi-directional streaming</li>
-                        <li>Command submission and completion</li>
                         <li>Transaction service</li>
-                        <li>Java/Python bindings available</li>
+                        <li>Python bindings available</li>
                     </ul>
                 </div>
 
                 <div class="comparison-card">
-                    <h3><span class="icon">🔍</span> Admin API</h3>
+                    <h3>Admin API</h3>
                     <ul>
                         <li>Validator node administration</li>
                         <li>Topology transaction management</li>
                         <li>Party creation and hosting</li>
                         <li>Synchronizer connection management</li>
-                        <li>Used for onboarding external parties</li>
                     </ul>
                 </div>
             </div>
@@ -541,7 +522,7 @@ party_request = party_service_pb2.<span class="code-function">AllocatePartyReque
 
             <!-- Wallet SDK -->
             <div class="flow-step">
-                <div class="flow-step-number">💼</div>
+                <div class="flow-step-number">1</div>
                 <div class="flow-step-content">
                     <h3>Wallet SDK</h3>
                     <p><strong>For wallet providers and exchanges integrating Canton Coin</strong></p>
@@ -559,14 +540,14 @@ npm install @canton-network/wallet-sdk
 npm install @canton-network/dapp-sdk</code></pre>
                     </div>
                     <p style="margin-top: 15px;">
-                        📚 <a href="https://docs.digitalasset.com/integrate/devnet/integrating-with-canton-network/" target="_blank" style="color: var(--accent); text-decoration: underline;">Integration Guide</a>
+                    > <a href="https://docs.digitalasset.com/integrate/devnet/integrating-with-canton-network/" target="_blank" style="color: white; text-decoration: underline; font-weight: 900;">Integration Guide</a>
                     </p>
                 </div>
             </div>
 
             <!-- Scan API -->
             <div class="flow-step">
-                <div class="flow-step-number">🔍</div>
+                <div class="flow-step-number">2</div>
                 <div class="flow-step-content">
                     <h3>Scan API</h3>
                     <p><strong>Public API for network data and Canton Coin information</strong></p>
@@ -583,14 +564,14 @@ curl -X POST https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/ope
   -d <span class="code-string">"{}"</span></code></pre>
                     </div>
                     <p style="margin-top: 15px;">
-                        📚 <a href="https://docs.sync.global/app_dev/scan_api/" target="_blank" style="color: var(--accent); text-decoration: underline;">Scan API Documentation</a>
+                        > <a href="https://docs.sync.global/app_dev/scan_api/" target="_blank" style="color: white; text-decoration: underline; font-weight: 900;">Scan API Documentation</a>
                     </p>
                 </div>
             </div>
 
             <!-- Validator API -->
             <div class="flow-step">
-                <div class="flow-step-number">🎛️</div>
+                <div class="flow-step-number">3</div>
                 <div class="flow-step-content">
                     <h3>Validator API</h3>
                     <p><strong>REST API for validator node and wallet operations</strong></p>
@@ -609,14 +590,14 @@ Authorization: Bearer &lt;JWT&gt;
 POST /v0/wallet/buy-traffic-requests</code></pre>
                     </div>
                     <p style="margin-top: 15px;">
-                        📚 <a href="https://docs.sync.global/app_dev/validator_api/" target="_blank" style="color: var(--accent); text-decoration: underline;">Validator API Documentation</a>
+                        > <a href="https://docs.sync.global/app_dev/validator_api/" target="_blank" style="color: white; text-decoration: underline; font-weight: 900;">Validator API Documentation</a>
                     </p>
                 </div>
             </div>
 
             <!-- dApp API -->
             <div class="flow-step">
-                <div class="flow-step-number">🔗</div>
+                <div class="flow-step-number">4</div>
                 <div class="flow-step-content">
                     <h3>dApp API (Wallet Gateway)</h3>
                     <p><strong>Standard interface for dApp-to-wallet communication</strong></p>
@@ -634,24 +615,9 @@ POST /v0/wallet/buy-traffic-requests</code></pre>
 <span class="code-keyword">const</span> signed = <span class="code-keyword">await</span> wallet.<span class="code-function">signTransaction</span>(tx);</code></pre>
                     </div>
                     <p style="margin-top: 15px;">
-                        📚 <a href="https://github.com/hyperledger-labs/splice-wallet-kernel" target="_blank" style="color: var(--accent); text-decoration: underline;">Wallet Kernel GitHub</a>
+                        > <a href="https://github.com/hyperledger-labs/splice-wallet-kernel" target="_blank" style="color: white; text-decoration: underline; font-weight: 900;">Wallet Kernel GitHub</a>
                     </p>
                 </div>
-            </div>
-
-            <div class="info-box">
-                <div class="info-box-title">🔑 API AUTHENTICATION</div>
-                <p>
-                    All Canton Network APIs require JWT token authentication. Tokens must include:
-                </p>
-                <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
-                    <li><code>sub</code>: Ledger API user ID (party identifier)</li>
-                    <li><code>aud</code>: Audience (API endpoint)</li>
-                    <li><code>scope</code>: Optional scope (e.g., <code>daml_ledger_api</code>)</li>
-                </ul>
-                <p style="margin-top: 10px;">
-                    Pass tokens as: <code>Authorization: Bearer &lt;token&gt;</code>
-                </p>
             </div>
 
             <h3 style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 32px; margin: 60px 0 30px;">API Comparison</h3>
@@ -672,12 +638,6 @@ POST /v0/wallet/buy-traffic-requests</code></pre>
                             <td>Core contract operations</td>
                             <td>Application developers</td>
                             <td>Query contracts, submit transactions, stream updates</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Wallet SDK</strong></td>
-                            <td>Wallet integration</td>
-                            <td>Wallet providers, exchanges</td>
-                            <td>Canton Coin transfers, party hosting, external signing</td>
                         </tr>
                         <tr>
                             <td><strong>Scan API</strong></td>
@@ -712,18 +672,9 @@ POST /v0/wallet/buy-traffic-requests</code></pre>
         <section id="journey">
             <div class="section-header">
                 <div class="section-label">05 / DEVELOPER JOURNEY</div>
-                <h2 class="section-title">From Zero to Production</h2>
+                <h2 class="section-title">From Zero to Canton-Ready</h2>
                 <p class="section-description">
-                    The complete path: learn fundamentals → local development → DevNet testing → MainNet deployment
-                </p>
-            </div>
-
-            <div class="info-box warning">
-                <div class="info-box-title">⚠️ IMPORTANT: QUICKSTART ARCHITECTURAL CHANGE (JULY 2025)</div>
-                <p>
-                    The Canton Network Quickstart underwent a major update on July 2, 2025. It no longer connects to DevNet 
-                    and instead uses LocalNet (a local network) for development. This requires running <code>make clean-all</code> 
-                    to remove old data if upgrading from a previous version.
+                    Learn → Development → DevNet → Testnet → MainNet Guide
                 </p>
             </div>
 
@@ -732,15 +683,13 @@ POST /v0/wallet/buy-traffic-requests</code></pre>
                     <div class="flow-step-number">1</div>
                     <h3>Learn the Fundamentals</h3>
                     <p>
-                        Understand how Canton is different: validators with state, parties as identity, synchronizers 
+                        Understand about Canton: Validators with state, Parties as identity, Synchronizers 
                         for coordination, and Daml for smart contracts. Join the community.
                     </p>
                     <div class="flow-step-details">
                         <ul>
-                            <li>📖 Read official docs: docs.digitalasset.com/build</li>
-                            <li>💬 Join Slack: #validator-operations</li>
-                            <li>📚 Daml Language Reference and tutorials</li>
-                            <li>🎓 Complete "Get Started with Canton and JSON API" tutorial</li>
+                            <li>Read official docs: <a href="https://docs.digitalasset.com/" target="_blank" style="color: white; text-decoration: underline;">docs.digitalasset.com</a></li>
+                            <li>Daml Language Reference and tutorials: <a href="https://digitalasset.com/training-and-certification" target="_blank" style="color: white; text-decoration: underline;">digitalasset.com/training-and-certification</a></li>
                         </ul>
                     </div>
                 </div>
@@ -758,15 +707,12 @@ curl -sSL https://get.daml.com | sh
 
 <span class="code-comment"># Create new project</span>
 dpm new my-canton-app --template daml-intro
-
-<span class="code-comment"># Install VS Code extension</span>
-code --install-extension DigitalAssetHoldingsLLC.daml</code></pre>
                     </div>
                 </div>
 
                 <div class="flow-step">
                     <div class="flow-step-number">3</div>
-                    <h3>Set Up Local Development with Quickstart</h3>
+                    <h3>Set Up Local Development with Quickstart & Follow Connected Guide</h3>
                     <p>
                         The Canton Network Quickstart provides a complete local development environment. Clone the repo and 
                         run your app locally before deploying to DevNet. Requires Docker with 8GB+ RAM.
@@ -809,9 +755,8 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     </p>
                     <div class="flow-step-details">
                         <ul>
-                            <li>Modular architecture - enable/disable components via Docker profiles</li>
+                            <li>Modular architecture, enable/disable components via Docker profiles</li>
                             <li>Single containers serve multiple logical components to reduce resources</li>
-                            <li>Uses nginx as proxy for most services</li>
                             <li>Postgres contains multiple databases for Quickstart services</li>
                             <li>For production: Use Kubernetes, replace automation with manual config steps</li>
                         </ul>
@@ -830,7 +775,6 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                             <li>Frontend: <code>make restart-frontend</code> or <code>make start-vite-dev</code> for hot-reload</li>
                             <li>Backend: <code>export DEBUG_ENABLED=true && make restart-backend</code></li>
                             <li>Logs: Install lnav + Canton format for interactive log viewing</li>
-                            <li>Test with Daml scripts before moving to DevNet</li>
                         </ul>
                     </div>
                 </div>
@@ -839,16 +783,13 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     <div class="flow-step-number">6</div>
                     <h3>Get Your Validator on DevNet</h3>
                     <p>
-                        Apply for DevNet whitelisting (up to 500 IPs approved weekly, lightweight process). 
-                        Get validator running locally or in cloud. Test everything here first.
+                        Apply for DevNet Whitelisting.
                     </p>
                     <div class="flow-step-details">
                         <ul>
-                            <li>No limits on DevNet approvals - use this for ALL testing</li>
                             <li>Set up parties (internal for your app, external for customers)</li>
                             <li>Deploy your Daml code (upload DAR files)</li>
                             <li>Test contract creation, choice execution, queries</li>
-                            <li>Iterate rapidly without MainNet constraints</li>
                         </ul>
                     </div>
                 </div>
@@ -857,8 +798,7 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     <div class="flow-step-number">7</div>
                     <h3>Build Your Application</h3>
                     <p>
-                        Write Daml templates for your use case. Implement business logic in choices. 
-                        Build frontend using JSON Ledger API. Test with Daml scripts.
+                        Write Daml templates for your use case. Implement business logic in choices.
                     </p>
                     <div class="flow-step-details">
                         <ul>
@@ -866,8 +806,6 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                             <li>Define authorization (signatories, observers, controllers)</li>
                             <li>Implement state transitions (choices)</li>
                             <li>Write Daml scripts for testing</li>
-                            <li>Build REST API integration for frontend</li>
-                            <li>Handle party creation and onboarding</li>
                         </ul>
                     </div>
                 </div>
@@ -882,7 +820,7 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     <div class="flow-step-details">
                         <ul>
                             <li>Sponsor submits request to Featured Applications committee</li>
-                            <li>7-day wait for Super Validator on-chain vote</li>
+                            <li>Wait for Super Validator on-chain vote</li>
                             <li>Deploy to TestNet first for final validation</li>
                             <li>Then request MainNet access for production</li>
                             <li>Monitor validator health and earn Canton Coin rewards</li>
@@ -895,45 +833,28 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
 
             <div class="comparison">
                 <div class="comparison-card highlight">
-                    <h3>Canton Network Quickstart</h3>
+                    <h3>Quickstart & Documentation</h3>
                     <ul>
-                        <li>GitHub: digital-asset/cn-quickstart</li>
-                        <li>Installation & setup guides</li>
-                        <li>Demo exploration & project structure</li>
+                        <li>GitHub: <a href="https://github.com/digital-asset/cn-quickstart" target="_blank" style="color: white; text-decoration: underline;">digital-asset/cn-quickstart</a></li>
                         <li>Built on Splice LocalNet</li>
-                        <li>Includes OAuth2, observability, PQS</li>
-                        <li>FAQ & troubleshooting docs</li>
+                        <li><a href="https://docs.digitalasset.com/" target="_blank" style="color: white; text-decoration: underline;">docs.digitalasset.com</a> for Main docs</li>
                     </ul>
                 </div>
 
                 <div class="comparison-card">
-                    <h3>Documentation</h3>
+                    <h3>Tools & SDKs</h3>
                     <ul>
-                        <li>docs.digitalasset.com/build - Main docs</li>
-                        <li>Daml Language Reference</li>
-                        <li>Canton Network APIs</li>
-                        <li>Wallet/Exchange integration guides</li>
-                        <li>Token Standard (CIP-0056) docs</li>
-                    </ul>
-                </div>
-
-                <div class="comparison-card">
-                    <h3>🛠️ Tools & SDKs</h3>
-                    <ul>
-                        <li>Digital Asset Package Manager (DPM)</li>
-                        <li>TypeScript SDK for JSON API</li>
-                        <li>Java/Python gRPC bindings</li>
-                        <li>Token Standard CLI</li>
-                        <li>Canton console for admin ops</li>
-                        <li>lnav for log analysis</li>
+                        <li><a href="https://docs.digitalasset.com/build/3.4/dpm/dpm.html" target="_blank" style="color: white; text-decoration: underline;">Digital Asset Package Manager (DPM)</a></li>
+                        <li><a href="https://docs.digitalasset.com/build/3.4/tutorials/json-api/canton_and_the_json_ledger_api_ts.html" target="_blank" style="color: white; text-decoration: underline;">TypeScript SDK for JSON API</a></li>
+                        <li><a href="https://github.com/digital-asset/dazl-client" target="_blank" style="color: white; text-decoration: underline;">Java/Python gRPC bindings</a></li>
                     </ul>
                 </div>
 
                 <div class="comparison-card">
                     <h3>Community</h3>
                     <ul>
-                        <li>GitHub: digital-asset repos</li>
-                        <li>Discord: Canton community</li>
+                        <li>GitHub: <a href="https://github.com/canton-foundation" target="_blank" style="color: white; text-decoration: underline;">Canton Foundation</a></li>
+                        <li>Discord: <a href="https://discord.com/invite/canton" target="_blank" style="color: white; text-decoration: underline;">Canton Discord</a></li>
                     </ul>
                 </div>
             </div>
@@ -943,14 +864,14 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
         <section>
             <div class="section-header">
                 <div class="section-label">06 / COMPARISON</div>
-                <h2 class="section-title">Canton vs. Traditional Blockchains</h2>
+                <h2 class="section-title">Canton vs. Public Blockchains</h2>
             </div>
 
             <table class="data-table">
                 <thead>
                     <tr>
                         <th>Aspect</th>
-                        <th>Traditional Blockchains</th>
+                        <th>Public Blockchains</th>
                         <th>Canton Network</th>
                     </tr>
                 </thead>
@@ -958,12 +879,7 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     <tr>
                         <td><strong>Data Distribution</strong></td>
                         <td>All state replicated to all nodes</td>
-                        <td>Selective distribution - only to parties with stake</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Node State</strong></td>
-                        <td>Nodes are ephemeral/exchangeable</td>
-                        <td>Validators have state - not interchangeable</td>
+                        <td>Selective distribution only to parties with stake</td>
                     </tr>
                     <tr>
                         <td><strong>Privacy</strong></td>
@@ -973,12 +889,12 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     <tr>
                         <td><strong>Scaling</strong></td>
                         <td>Network-wide throughput limits</td>
-                        <td>Independent scaling - busy apps don't throttle others</td>
+                        <td>Independent scaling busy apps don't throttle others</td>
                     </tr>
                     <tr>
                         <td><strong>Composability</strong></td>
                         <td>Within same contract or via bridges</td>
-                        <td>Atomic cross-app transactions with privacy preservation</td>
+                        <td>Atomic cross-app transactions with privacy, Managed by Global Synchronizer</td>
                     </tr>
                     <tr>
                         <td><strong>Account Model</strong></td>
@@ -987,8 +903,8 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     </tr>
                     <tr>
                         <td><strong>Smart Contracts</strong></td>
-                        <td>Solidity, Rust, Move, etc.</td>
-                        <td>Daml with built-in authorization model</td>
+                        <td>Solidity, Rust, Move, etc. Model</td>
+                        <td>DAML Model</td>
                     </tr>
                     <tr>
                         <td><strong>Transaction Model</strong></td>
