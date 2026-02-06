@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canton Network 101 - Complete Developer Guide</title>
+    <title>Canton Network 101: Complete Developer Guide</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,13 +74,13 @@
                         <h4>Daml Templates & Choices</h4>
                         <p>
                             Contract instances defined by templates (contract types). Transactions are executed by calling choices on contracts. 
-                            Smart contracts specify permissions for parties - who validates, who controls, who sees.
+                            Smart contracts specify permissions for parties...who validates, who controls, who sees.
                         </p>
                         <div class="arch-detail">
                             <div class="arch-detail-item">Signatories: parties whose authority is required to create/archive</div>
                             <div class="arch-detail-item">Observers: parties who see the contract (guaranteed visibility)</div>
                             <div class="arch-detail-item">Controllers: parties who can execute specific choices</div>
-                            <div class="arch-detail-item">Contracts aren't tied to synchronizers - they can move freely</div>
+                            <div class="arch-detail-item">Contracts aren't tied to synchronizers, they can move freely</div>
                         </div>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                     </p>
                     <div class="tags">
                         <span class="tag">MANUAL PROCESS</span>
-                        <span class="tag">2-3 WEEKS</span>
+                        <span class="tag">2 to 3 WEEKS</span>
                     </div>
                 </div>
 
@@ -162,7 +162,7 @@
                     <h4>2. Provide Static Egress IP</h4>
                     <p>
                         After approval, provide your fixed egress IP address. This gets whitelisted across DevNet, 
-                        TestNet, and MainNet. Super Validators adopt config changes via on-chain vote (7-day cycle).
+                        TestNet, and MainNet. Super Validators adopt config changes via on chain vote.
                     </p>
                     <div class="tags">
                         <span class="tag">STATIC IP REQUIRED</span>
@@ -178,7 +178,7 @@
                     </p>
                     <div class="flow-step-details">
                         <ul>
-                            <li>Deploy in cloud or on-premise data center</li>
+                            <li>Deploy in cloud or on premise data center</li>
                             <li>Minimal hardware requirements</li>
                             <li>Configure OIDC for auth</li>
                             <li>Kubernetes recommended for production</li>
@@ -213,8 +213,8 @@
                 <div class="timeline-item">
                     <h4>6. Request MainNet Access</h4>
                     <p>
-                        Final step: MainNet whitelisting. Same process as TestNet. 7-day wait period for Super Validators 
-                        to adopt config and conduct on-chain vote. Once live, eligible for validator rewards (Canton Coin).
+                        Final step: MainNet whitelisting. Same process as TestNet. Min. 7 day wait period for Super Validators 
+                        to adopt config and conduct on chain vote. Once live, eligible for validator rewards (Canton Coin).
                     </p>
                     <div class="tags">
                         <span class="tag">MAINNET</span>
@@ -228,7 +228,7 @@
             
             <div class="comparison">
                 <div class="comparison-card">
-                    <h3><span class="icon">1</span> Self-Hosted</h3>
+                    <h3><span class="icon">1</span> Self Hosted</h3>
                     <ul>
                         <li>Deploy YOURSELF</li>
                         <li>Full control over infrastructure</li>
@@ -239,7 +239,7 @@
                 <div class="comparison-card">
                     <h3><span class="icon">2</span> Node-as-a-Service (NaaS)</h3>
                     <ul>
-                        <li>Pre-integrated NaaS providers available</li>
+                        <li>PreIntegrated NaaS providers available</li>
                         <li>Providers handle infrastructure overhead</li>
                         <li>Costs vary (some charge up to 85% of rewards)</li>
                         <li>Standalone Super Validators can issue onboarding secrets</li>
@@ -255,7 +255,7 @@
                 <div class="section-label">03 / SMART CONTRACTS</div>
                 <h2 class="section-title">Daml: Contracts, Templates, & Choices</h2>
                 <p class="section-description">
-                    Understanding how Canton's smart contract layer works - from templates to transactions
+                    Understanding how Canton's smart contract layer works: from templates to transactions
                 </p>
             </div>
 
@@ -319,7 +319,7 @@ assetCid <- <span class="code-keyword">submit</span> alice <span class="code-key
                     <h3>Exercising Choices (Transactions)</h3>
                     <p>
                         Choices are the ONLY way to transform contracts. Exercise a choice to update state. 
-                        Choices can be consuming (archives the contract) or non-consuming (keeps it active).
+                        Choices can be consuming (archives the contract) or non consuming (keeps it active).
                     </p>
                     <div class="code-block">
 <pre><code><span class="code-comment">-- Alice transfers asset to Bob</span>
@@ -343,15 +343,15 @@ newAssetCid <- <span class="code-keyword">submit</span> alice <span class="code-
                     <div class="flow-step-number">4</div>
                     <h3>Transaction Atomicity</h3>
                     <p>
-                        ALL actions in a transaction happen atomically - all succeed or all fail. No partial execution. 
-                        This enables atomic cross-app composability (e.g., DvP settlement).
+                        ALL actions in a transaction happen atomically...all succeed or all fail. No partial execution. 
+                        This enables atomic cross app composability (e.g., DvP settlement).
                     </p>
                     <div class="flow-step-details">
                         <ul>
                             <li>Transaction = tree of actions (create, exercise, fetch)</li>
                             <li>Requester knows all consequences before submission</li>
                             <li>Network validates and commits atomically</li>
-                            <li>No surprises - all effects are deterministic</li>
+                            <li>No surprises and all effects are deterministic</li>
                         </ul>
                     </div>
                 </div>
@@ -392,7 +392,7 @@ newAssetCid <- <span class="code-keyword">submit</span> alice <span class="code-
                 <div class="comparison-card highlight">
                     <h3>JSON Ledger API</h3>
                     <ul>
-                        <li>REST-style HTTP API for ledger access</li>
+                        <li>REST style HTTP API for ledger access</li>
                         <li>TypeScript SDKs available</li>
                     </ul>
                 </div>
@@ -400,8 +400,8 @@ newAssetCid <- <span class="code-keyword">submit</span> alice <span class="code-
                 <div class="comparison-card">
                     <h3>gRPC Ledger API</h3>
                     <ul>
-                        <li>High-performance gRPC interface</li>
-                        <li>Bi-directional streaming</li>
+                        <li>High performance gRPC interface</li>
+                        <li>Bi directional streaming</li>
                         <li>Transaction service</li>
                         <li>Python bindings available</li>
                     </ul>
@@ -431,7 +431,7 @@ newAssetCid <- <span class="code-keyword">submit</span> alice <span class="code-
   <span class="code-keyword">method</span>: <span class="code-string">'POST'</span>,
   <span class="code-keyword">headers</span>: { 
     <span class="code-string">'Authorization'</span>: <span class="code-string">`Bearer ${token}`</span>,
-    <span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>
+    <span class="code-string">'ContentType'</span>: <span class="code-string">'application/json'</span>
   },
   <span class="code-keyword">body</span>: <span class="code-function">JSON.stringify</span>({
     <span class="code-string">"filter"</span>: {
@@ -491,7 +491,7 @@ state_client = state_service_pb2_grpc.<span class="code-function">StateServiceSt
 
             <div class="code-tab-content" id="admin-api">
                 <div class="code-block">
-<pre><code><span class="code-comment"># Example: Admin API - Party management (Python)</span>
+<pre><code><span class="code-comment"># Example: Admin API: Party management (Python)</span>
 <span class="code-keyword">import</span> grpc
 <span class="code-keyword">from</span> com.digitalasset.canton.admin.participant.v30 <span class="code-keyword">import</span> party_service_pb2
 
@@ -604,7 +604,7 @@ POST /v0/wallet/buy-traffic-requests</code></pre>
                     <ul>
                         <li>Connect wallets to dApps securely</li>
                         <li>Request transaction signing from users</li>
-                        <li>Token Standard (CIP-0056) integration</li>
+                        <li>Token Standard (CIP0056) integration</li>
                         <li>External party onboarding and management</li>
                     </ul>
                     <div class="code-block">
@@ -659,7 +659,7 @@ POST /v0/wallet/buy-traffic-requests</code></pre>
                         </tr>
                         <tr>
                             <td><strong>dApp API</strong></td>
-                            <td>Wallet-dApp bridge</td>
+                            <td>Wallet to dApp bridge</td>
                             <td>dApp developers</td>
                             <td>Wallet connection, transaction signing, Token Standard</td>
                         </tr>
@@ -672,7 +672,7 @@ POST /v0/wallet/buy-traffic-requests</code></pre>
         <section id="journey">
             <div class="section-header">
                 <div class="section-label">05 / DEVELOPER JOURNEY</div>
-                <h2 class="section-title">From Zero to Canton-Ready</h2>
+                <h2 class="section-title">From Zero to Canton ready</h2>
                 <p class="section-description">
                     Learn → Development → DevNet → Testnet → MainNet Guide
                 </p>
@@ -738,10 +738,10 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     <div class="flow-step-details">
                         <ul>
                             <li><strong>Note:</strong> As of July 2025, Quickstart uses LocalNet (local network) instead of connecting to DevNet</li>
-                            <li>Minimum 8GB Docker memory required - configure in Docker Desktop settings</li>
+                            <li>Minimum 8GB Docker memory required, configure in Docker Desktop settings</li>
                             <li>Uses Java SDK Eclipse Temurin JDK 21 in containers</li>
-                            <li>Access UIs: app-provider.localhost:3000, wallet.localhost:2000, scan.localhost:4000</li>
-                            <li>If issues: <code>make clean-all</code> then delete Docker images/volumes</li>
+                            <li>Access UIs: app provider.localhost:3000, wallet.localhost:2000, scan.localhost:4000</li>
+                            <li>If issues: <code>make clean all</code> then delete Docker images/volumes</li>
                         </ul>
                     </div>
                 </div>
@@ -750,8 +750,8 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     <div class="flow-step-number">4</div>
                     <h3>Understand Quickstart Architecture</h3>
                     <p>
-                        Quickstart runs multiple Canton services in Docker containers. Key modules: splice-onboarding (initialization), 
-                        keycloak (OAuth2), pqs (query service), observability, and daml-shell. Built on Splice LocalNet.
+                        Quickstart runs multiple Canton services in Docker containers. Key modules: splice onboarding (initialization), 
+                        keycloak (OAuth2), pqs (query service), observability, and daml shell. Built on Splice LocalNet.
                     </p>
                     <div class="flow-step-details">
                         <ul>
@@ -767,13 +767,13 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     <div class="flow-step-number">5</div>
                     <h3>Build & Test Your Application</h3>
                     <p>
-                        Write Daml templates for your use case. Use Vite hot-reload for frontend dev (<code>make vite-dev</code>). 
+                        Write Daml templates for your use case. Use Vite hot reload for frontend dev (<code>make vite dev</code>). 
                         Debug backend with JVM remote debugging on port 5005. Use lnav for log analysis.
                     </p>
                     <div class="flow-step-details">
                         <ul>
-                            <li>Frontend: <code>make restart-frontend</code> or <code>make start-vite-dev</code> for hot-reload</li>
-                            <li>Backend: <code>export DEBUG_ENABLED=true && make restart-backend</code></li>
+                            <li>Frontend: <code>make restart frontend</code> or <code>make start vite dev</code> for hot reload</li>
+                            <li>Backend: <code>export DEBUG_ENABLED=true && make restart backend</code></li>
                             <li>Logs: Install lnav + Canton format for interactive log viewing</li>
                         </ul>
                     </div>
@@ -820,7 +820,7 @@ make shell          <span class="code-comment"># Daml shell for testing</span></
                     <div class="flow-step-details">
                         <ul>
                             <li>Sponsor submits request to Featured Applications committee</li>
-                            <li>Wait for Super Validator on-chain vote</li>
+                            <li>Wait for Super Validator on  chain vote</li>
                             <li>Deploy to TestNet first for final validation</li>
                             <li>Then request MainNet access for production</li>
                             <li>Monitor validator health and earn Canton Coin rewards</li>
