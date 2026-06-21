@@ -1,929 +1,524 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canton Network 101: Complete Developer Guide</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Cabinet+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
-    
-    <!-- External CSS -->
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CF Onboarding & Dev Fund Guide</title>
+<meta name="description" content="A read-only reference for builders and validators joining the Canton Network, and for teams applying to the Canton Development Fund." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <section class="hero">
-            <h1>Canton Network 101</h1>
-            <p class="author">
-                by <strong>Jatin</strong>, DevRel Manager, Canton Foundation
-            </p>
-        </section>
-
-        <!-- ARCHITECTURE FUNDAMENTALS -->
-        <section id="architecture">
-            <div class="section-header">
-                <div class="section-label">01 / ARCHITECTURE</div>
-                <h2 class="section-title">How Canton Actually Works</h2>
-                <p class="section-description">
-                    Canton is fundamentally different from other blockchains. It's a "network of networks" 
-                    where data is distributed on a need-to-know basis, not globally replicated.
-                </p>
-            </div>
-
-            <div class="architecture">
-                <div class="arch-row">
-                    <div class="arch-label">VALIDATORS</div>
-                    <div class="arch-content">
-                        <h4>Independent Nodes with State</h4>
-                        <p>
-                            Validators (formerly called participants) are the nodes that store contract data and execute smart contract code. 
-                            Unlike other blockchains where nodes are ephemeral/exchangeable, <strong>Canton validators have state</strong>.
-                        </p>
-                        <div class="arch-detail">
-                            <div class="arch-detail-item">Your validator only sees contracts where your parties are stakeholders</div>
-                            <div class="arch-detail-item">Each validator connects to multiple synchronizers</div>
-                            <div class="arch-detail-item">Your node = your private data</div>
-                            <div class="arch-detail-item">Parties are hosted on validators by mutual agreement</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="arch-row">
-                    <div class="arch-label">GLOBAL SYNCHRONIZER</div>
-                    <div class="arch-content">
-                        <h4>Coordination & Ordering Layer</h4>
-                        <p>
-                            The Global Synchronizer (sync.global) is the decentralized backbone using BFT consensus. It orders, buffers, and forwards 
-                            encrypted messages between validators <strong>without understanding transaction contents</strong>. Operated by Super Validators.
-                        </p>
-                        <div class="arch-detail">
-                            <div class="arch-detail-item">Validators connect to synchronizers to form networks</div>
-                            <div class="arch-detail-item">Time-orders cross-application transactions</div>
-                            <div class="arch-detail-item">Prevents conflicts while preserving privacy</div>
-                            <div class="arch-detail-item">Canton Coin used to pay for Global Synchronizer fees</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="arch-row">
-                    <div class="arch-label">SMART CONTRACTS</div>
-                    <div class="arch-content">
-                        <h4>Daml Templates & Choices</h4>
-                        <p>
-                            Contract instances defined by templates (contract types). Transactions are executed by calling choices on contracts. 
-                            Smart contracts specify permissions for parties...who validates, who controls, who sees.
-                        </p>
-                        <div class="arch-detail">
-                            <div class="arch-detail-item">Signatories: parties whose authority is required to create/archive</div>
-                            <div class="arch-detail-item">Observers: parties who see the contract (guaranteed visibility)</div>
-                            <div class="arch-detail-item">Controllers: parties who can execute specific choices</div>
-                            <div class="arch-detail-item">Contracts aren't tied to synchronizers, they can move freely</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <div class="info-box-title">KEY DIFFERENCE FROM OTHER BLOCKCHAINS</div>
-                <p>
-                    In Ethereum/Solana, all state and transactions are replicated to all nodes. In Canton, 
-                    state and transactions are distributed ONLY to validators specified in the smart contracts. 
-                    This is privacy by design at the protocol level.
-                </p>
-            </div>
-
-            <h3 style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 32px; margin: 60px 0 30px;">Network Topology Visualization</h3>
-            
-            <div class="network-diagram">
-                <div class="network-layer">
-                    <div class="network-node accent">
-                        <h4>Global Synchronizer</h4>
-                        <p>Canton Foundation layer</p>
-                        <p style="color: white;"><a href="https://canton.foundation" target="_blank" style="color: white; text-decoration: underline;">canton.foundation</a></p>
-                    </div>
-                </div>
-                <div style="text-align: center; color: var(--text-dim); font-size: 11px;">↕ encrypted messages</div>
-                <div class="network-layer">
-                    <div class="network-node">
-                        <h4>Validator A</h4>
-                        <p>Party: alice::abc123</p>
-                    </div>
-                    <div class="network-node">
-                        <h4>Validator B</h4>
-                        <p>Party: bob::def456</p>
-                    </div>
-                    <div class="network-node">
-                        <h4>Validator C</h4>
-                        <p>Party: charlie::ghi789</p>
-                    </div>
-                </div>
-                <div style="text-align: center; color: var(--text-dim); font-size: 11px; margin-top: 20px;">
-                    Each validator only sees contracts where their parties are stakeholders
-                </div>
-            </div>
-        </section>
-
-        <!-- VALIDATOR ONBOARDING -->
-        <section id="validator">
-            <div class="section-header">
-                <div class="section-label">02 / VALIDATOR ONBOARDING</div>
-                <h2 class="section-title">Getting Your Validator Live</h2>
-                <p class="section-description">
-                    The complete flow from application to MainNet. Currently you need approval from 
-                    existing Super Validators, Validators, or Canton Foundation.
-                </p>
-            </div>
-
-            <div class="info-box warning">
-                <div class="info-box-title">CURRENT PHASE</div>
-                <p>
-                    New validators must be approved following a request from an existing Super Validator, Validator, 
-                    application provider, or Foundation member. Apply via the Foundation form or contact a sponsor.
-                </p>
-            </div>
-
-            <div class="timeline">
-                <div class="timeline-item">
-                    <h4>1. Apply for Whitelisting</h4>
-                    <p>
-                        Fill out validator request form → feeds into Google Sheet → manual compliance scrubbing 
-                        (banned countries, invalid emails rejected) → tokenomics committee reviews weekly
-                    </p>
-                    <div class="tags">
-                        <span class="tag">MANUAL PROCESS</span>
-                        <span class="tag">2 to 3 WEEKS</span>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <h4>2. Provide Static Egress IP</h4>
-                    <p>
-                        After approval, provide your fixed egress IP address. This gets whitelisted across DevNet, 
-                        TestNet, and MainNet. Super Validators adopt config changes via on chain vote.
-                    </p>
-                    <div class="tags">
-                        <span class="tag">STATIC IP REQUIRED</span>
-                        <span class="tag">WHITELISTING PROCESS</span>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <h4>3. Set Up Infrastructure</h4>
-                    <p>
-                        Prepare container environment (VM or Kubernetes cluster). Set up OIDC authentication 
-                        (Auth0, Keycloak, etc.). Download packages from your sponsor Super Validator.
-                    </p>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li>Deploy in cloud or on premise data center</li>
-                            <li>Minimal hardware requirements</li>
-                            <li>Configure OIDC for auth</li>
-                            <li>Kubernetes recommended for production</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <h4>4. Join DevNet</h4>
-                    <p>
-                        Receive onboarding secret from sponsor. Use it to connect your validator to DevNet. 
-                        Get your node running and test all functionality here first.
-                    </p>
-                    <div class="tags">
-                        <span class="tag">DEVNET</span>
-                        <span class="tag">TESTING ENVIRONMENT</span>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <h4>5. Request TestNet Access</h4>
-                    <p>
-                        Once stable on DevNet, request TestNet access. Sponsor submits request to Featured Applications 
-                        and Validators committee. Requires formal validator approval.
-                    </p>
-                    <div class="tags">
-                        <span class="tag">TESTNET</span>
-                        <span class="tag">FORMAL APPROVAL REQUIRED</span>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <h4>6. Request MainNet Access</h4>
-                    <p>
-                        Final step: MainNet whitelisting. Same process as TestNet. Min. 7 day wait period for Super Validators 
-                        to adopt config and conduct on chain vote. Once live, eligible for validator rewards (Canton Coin).
-                    </p>
-                    <div class="tags">
-                        <span class="tag">MAINNET</span>
-                        <span class="tag">PRODUCTION</span>
-                        <span class="tag">EARN REWARDS</span>
-                    </div>
-                </div>
-            </div>
-
-            <h3 style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 24px; margin: 40px 0 20px;">Deployment Options</h3>
-            
-            <div class="comparison">
-                <div class="comparison-card">
-                    <h3><span class="icon">1</span> Self Hosted</h3>
-                    <ul>
-                        <li>Deploy YOURSELF</li>
-                        <li>Full control over infrastructure</li>
-                        <li>Maintain Network Nodes</li>
-                    </ul>
-                </div>
-
-                <div class="comparison-card">
-                    <h3><span class="icon">2</span> Node-as-a-Service (NaaS)</h3>
-                    <ul>
-                        <li>PreIntegrated NaaS providers available</li>
-                        <li>Providers handle infrastructure overhead</li>
-                        <li>Costs vary (some charge up to 85% of rewards)</li>
-                        <li>Standalone Super Validators can issue onboarding secrets</li>
-                    </ul>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- SMART CONTRACTS & DAML -->
-        <section id="contracts">
-            <div class="section-header">
-                <div class="section-label">03 / SMART CONTRACTS</div>
-                <h2 class="section-title">Daml: Contracts, Templates, & Choices</h2>
-                <p class="section-description">
-                    Understanding how Canton's smart contract layer works: from templates to transactions
-                </p>
-            </div>
-
-            <h3 style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 24px; margin: 40px 0 20px;">Contract Lifecycle</h3>
-
-            <div class="flow-container">
-                <div class="flow-step">
-                    <div class="flow-step-number">1</div>
-                    <h3>Templates Define Contract Types</h3>
-                    <p>
-                        A template specifies the data structure (fields), stakeholders (signatories, observers), 
-                        and choices (actions) for a contract type. Think of templates as "classes" for contracts.
-                    </p>
-                    <div class="code-block">
-<pre><code><span class="code-keyword">template</span> <span class="code-type">Asset</span>
-  <span class="code-keyword">with</span>
-    issuer : <span class="code-type">Party</span>
-    owner : <span class="code-type">Party</span>
-    symbol : <span class="code-type">Text</span>
-    quantity : <span class="code-type">Decimal</span>
-  <span class="code-keyword">where</span>
-    <span class="code-keyword">signatory</span> issuer, owner
-    <span class="code-keyword">observer</span> []
-    
-    <span class="code-keyword">choice</span> <span class="code-function">Transfer</span> : <span class="code-type">ContractId Asset</span>
-      <span class="code-keyword">with</span>
-        newOwner : <span class="code-type">Party</span>
-      <span class="code-keyword">controller</span> owner
-      <span class="code-keyword">do</span>
-        <span class="code-keyword">create</span> <span class="code-keyword">this</span> <span class="code-keyword">with</span> owner = newOwner</code></pre>
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-step-number">2</div>
-                    <h3>Creating Contracts</h3>
-                    <p>
-                        Contracts are instances of templates. Creating a contract requires authority from all signatories. 
-                        The contract becomes "active" on the ledger and visible to all stakeholders.
-                    </p>
-                    <div class="code-block">
-<pre><code><span class="code-comment">-- Alice creates an asset (she's both issuer and owner)</span>
-assetCid <- <span class="code-keyword">submit</span> alice <span class="code-keyword">do</span>
-  <span class="code-function">createCmd</span> <span class="code-type">Asset</span> <span class="code-keyword">with</span>
-    issuer = alice
-    owner = alice
-    symbol = <span class="code-string">"USD"</span>
-    quantity = <span class="code-string">1000.0</span></code></pre>
-                    </div>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li>Returns ContractId (opaque reference to the contract)</li>
-                            <li>Contract is active from this point forward</li>
-                            <li>All signatories must authorize creation</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-step-number">3</div>
-                    <h3>Exercising Choices (Transactions)</h3>
-                    <p>
-                        Choices are the ONLY way to transform contracts. Exercise a choice to update state. 
-                        Choices can be consuming (archives the contract) or non consuming (keeps it active).
-                    </p>
-                    <div class="code-block">
-<pre><code><span class="code-comment">-- Alice transfers asset to Bob</span>
-newAssetCid <- <span class="code-keyword">submit</span> alice <span class="code-keyword">do</span>
-  <span class="code-function">exerciseCmd</span> assetCid <span class="code-function">Transfer</span> <span class="code-keyword">with</span>
-    newOwner = bob
-    
-<span class="code-comment">-- This archives the old contract and creates a new one</span>
-<span class="code-comment">-- Bob is now the owner</span></code></pre>
-                    </div>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li>Controller must have authority (in this case: owner)</li>
-                            <li>Default: consuming choice archives the contract</li>
-                            <li>Creates new contract with updated state</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-step-number">4</div>
-                    <h3>Transaction Atomicity</h3>
-                    <p>
-                        ALL actions in a transaction happen atomically...all succeed or all fail. No partial execution. 
-                        This enables atomic cross app composability (e.g., DvP settlement).
-                    </p>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li>Transaction = tree of actions (create, exercise, fetch)</li>
-                            <li>Requester knows all consequences before submission</li>
-                            <li>Network validates and commits atomically</li>
-                            <li>No surprises and all effects are deterministic</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <h3 style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 24px; margin: 60px 0 20px;">Authorization Model</h3>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Role</th>
-                        <th>Purpose</th>
-                        <th>Guarantees</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Signatory</strong></td>
-                        <td>Parties whose authority is required to create or archive the contract</td>
-                        <td>See all actions where contract is created/archived. Every contract must have ≥1 signatory.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Observer</strong></td>
-                        <td>Parties who can see the contract</td>
-                        <td>Guaranteed visibility of contract and all create/archive actions. Know about each other.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Controller</strong></td>
-                        <td>Parties who can execute specific choices</td>
-                        <td>Must authorize choice execution. Not automatically observers.</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3 style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 24px; margin: 60px 0 20px;">Accessing the Ledger</h3>
-
-            <div class="comparison">
-                <div class="comparison-card highlight">
-                    <h3>JSON Ledger API</h3>
-                    <ul>
-                        <li>REST style HTTP API for ledger access</li>
-                        <li>TypeScript SDKs available</li>
-                    </ul>
-                </div>
-
-                <div class="comparison-card">
-                    <h3>gRPC Ledger API</h3>
-                    <ul>
-                        <li>High performance gRPC interface</li>
-                        <li>Bi directional streaming</li>
-                        <li>Transaction service</li>
-                        <li>Python bindings available</li>
-                    </ul>
-                </div>
-
-                <div class="comparison-card">
-                    <h3>Admin API</h3>
-                    <ul>
-                        <li>Validator node administration</li>
-                        <li>Topology transaction management</li>
-                        <li>Party creation and hosting</li>
-                        <li>Synchronizer connection management</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="code-tabs">
-                <div class="code-tab active" data-tab="json-api">JSON Ledger API</div>
-                <div class="code-tab" data-tab="grpc-api">gRPC Ledger API</div>
-                <div class="code-tab" data-tab="admin-api">Admin API</div>
-            </div>
-
-            <div class="code-tab-content active" id="json-api">
-                <div class="code-block">
-<pre><code><span class="code-comment">// Example: Query active contracts via JSON Ledger API V2</span>
-<span class="code-keyword">const</span> response = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'http://localhost:8080/v2/state/active-contracts'</span>, {
-  <span class="code-keyword">method</span>: <span class="code-string">'POST'</span>,
-  <span class="code-keyword">headers</span>: { 
-    <span class="code-string">'Authorization'</span>: <span class="code-string">`Bearer ${token}`</span>,
-    <span class="code-string">'ContentType'</span>: <span class="code-string">'application/json'</span>
-  },
-  <span class="code-keyword">body</span>: <span class="code-function">JSON.stringify</span>({
-    <span class="code-string">"filter"</span>: {
-      <span class="code-string">"filtersForAnyParty"</span>: {
-        <span class="code-string">"cumulative"</span>: [{
-          <span class="code-string">"identifierFilter"</span>: { <span class="code-string">"WildcardFilter"</span>: { <span class="code-string">"value"</span>: {} } }
-        }]
-      }
-    },
-    <span class="code-string">"activeAtOffset"</span>: <span class="code-number">0</span>
-  })
-});
-
-<span class="code-comment">// Exercise a choice via submit-and-wait</span>
-<span class="code-keyword">const</span> result = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'http://localhost:8080/v2/commands/submit-and-wait'</span>, {
-  <span class="code-keyword">method</span>: <span class="code-string">'POST'</span>,
-  <span class="code-keyword">headers</span>: {
-    <span class="code-string">'Authorization'</span>: <span class="code-string">`Bearer ${token}`</span>,
-    <span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>
-  },
-  <span class="code-keyword">body</span>: <span class="code-function">JSON.stringify</span>({
-    <span class="code-string">"actAs"</span>: [<span class="code-string">"Alice::1220..."</span>],
-    <span class="code-string">"userId"</span>: <span class="code-string">"app1"</span>,
-    <span class="code-string">"commands"</span>: [{
-      <span class="code-string">"ExerciseCommand"</span>: {
-        <span class="code-string">"choice"</span>: <span class="code-string">"Transfer"</span>,
-        <span class="code-string">"choiceArgument"</span>: { <span class="code-string">"newOwner"</span>: <span class="code-string">"Bob::1220..."</span> },
-        <span class="code-string">"contractId"</span>: <span class="code-string">"00abc..."</span>,
-        <span class="code-string">"templateId"</span>: <span class="code-string">"#MyApp:Asset:Asset"</span>
-      }
-    }]
-  })
-});</code></pre>
-                </div>
-            </div>
-
-            <div class="code-tab-content" id="grpc-api">
-                <div class="code-block">
-<pre><code><span class="code-comment"># Example: Connect to gRPC Ledger API V2 (Python)</span>
-<span class="code-keyword">import</span> grpc
-<span class="code-keyword">from</span> com.daml.ledger.api.v2 <span class="code-keyword">import</span> update_service_pb2_grpc
-<span class="code-keyword">from</span> com.daml.ledger.api.v2 <span class="code-keyword">import</span> state_service_pb2_grpc
-
-<span class="code-comment"># Connect to validator gRPC endpoint</span>
-channel = grpc.<span class="code-function">insecure_channel</span>(<span class="code-string">'localhost:6865'</span>)
-
-<span class="code-comment"># Use Update Service to stream transactions</span>
-update_client = update_service_pb2_grpc.<span class="code-function">UpdateServiceStub</span>(channel)
-
-<span class="code-comment"># Get active contracts using State Service</span>
-state_client = state_service_pb2_grpc.<span class="code-function">StateServiceStub</span>(channel)
-
-<span class="code-comment"># High-performance streaming for real-time updates</span>
-<span class="code-comment"># Supports Command, Update, and State services</span></code></pre>
-                </div>
-            </div>
-
-            <div class="code-tab-content" id="admin-api">
-                <div class="code-block">
-<pre><code><span class="code-comment"># Example: Admin API: Party management (Python)</span>
-<span class="code-keyword">import</span> grpc
-<span class="code-keyword">from</span> com.digitalasset.canton.admin.participant.v30 <span class="code-keyword">import</span> party_service_pb2
-
-<span class="code-comment"># Connect to admin API (port from config, default often 14012)</span>
-admin_channel = grpc.<span class="code-function">insecure_channel</span>(<span class="code-string">'localhost:14012'</span>)
-
-<span class="code-comment"># Allocate a new party</span>
-party_request = party_service_pb2.<span class="code-function">AllocatePartyRequest</span>(
-    party_id_hint=<span class="code-string">'alice'</span>,
-    display_name=<span class="code-string">'Alice'</span>
-)
-
-<span class="code-comment"># Note: Admin API is for validator operations & management</span>
-<span class="code-comment"># Use Ledger API (JSON/gRPC) for application development</span></code></pre>
-                </div>
-            </div>
-        </section>
-
-        <!-- KEY APIS & SDKs -->
-        <section id="apis-sdks">
-            <div class="section-header">
-                <div class="section-label">04 / KEY APIS & SDKs</div>
-                <h2 class="section-title">Canton Network API Ecosystem</h2>
-                <p class="section-description">
-                    Beyond the Ledger API, Canton Network provides specialized APIs for wallets, dApps, scanning, and validator operations.
-                </p>
-            </div>
-
-            <!-- Wallet SDK -->
-            <div class="flow-step">
-                <div class="flow-step-number">1</div>
-                <div class="flow-step-content">
-                    <h3>Wallet SDK</h3>
-                    <p><strong>For wallet providers and exchanges integrating Canton Coin</strong></p>
-                    <ul>
-                        <li>Full wallet functionality (send, receive, balance)</li>
-                        <li>External signing support for secure key management</li>
-                        <li>Transfer preapprovals for recurring payments</li>
-                        <li>Party hosting and management</li>
-                    </ul>
-                    <div class="code-block">
-<pre><code><span class="code-comment">// Install Wallet SDK</span>
-npm install @canton-network/wallet-sdk
-
-<span class="code-comment">// Or for dApp development only (smaller bundle)</span>
-npm install @canton-network/dapp-sdk</code></pre>
-                    </div>
-                    <p style="margin-top: 15px;">
-                    > <a href="https://docs.digitalasset.com/integrate/devnet/integrating-with-canton-network/" target="_blank" style="color: white; text-decoration: underline; font-weight: 900;">Integration Guide</a>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Scan API -->
-            <div class="flow-step">
-                <div class="flow-step-number">2</div>
-                <div class="flow-step-content">
-                    <h3>Scan API</h3>
-                    <p><strong>Public API for network data and Canton Coin information</strong></p>
-                    <ul>
-                        <li>Query active mining rounds and Canton Coin prices</li>
-                        <li>Get ANS (Amulet Name Service) entries</li>
-                        <li>View validator licenses and network participants</li>
-                        <li>Access DSO party and synchronizer information</li>
-                    </ul>
-                    <div class="code-block">
-<pre><code><span class="code-comment"># Get Canton Coin price from open mining round</span>
-curl -X POST https://scan.sv-1.global.canton.network.sync.global/api/scan/v0/open-and-issuing-mining-rounds \
-  -H <span class="code-string">"Content-Type: application/json"</span> \
-  -d <span class="code-string">"{}"</span></code></pre>
-                    </div>
-                    <p style="margin-top: 15px;">
-                        > <a href="https://docs.sync.global/app_dev/scan_api/" target="_blank" style="color: white; text-decoration: underline; font-weight: 900;">Scan API Documentation</a>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Validator API -->
-            <div class="flow-step">
-                <div class="flow-step-number">3</div>
-                <div class="flow-step-content">
-                    <h3>Validator API</h3>
-                    <p><strong>REST API for validator node and wallet operations</strong></p>
-                    <ul>
-                        <li>User wallet management and operations</li>
-                        <li>Buy traffic for synchronizer fees (paid in Canton Coin)</li>
-                        <li>ANS (Amulet Name Service) operations</li>
-                        <li>Scan proxy for BFT reads (Byzantine Fault Tolerant)</li>
-                    </ul>
-                    <div class="code-block">
-<pre><code><span class="code-comment"># Create transfer offer (Validator API)</span>
-POST /v0/wallet/transfer-offers
-Authorization: Bearer &lt;JWT&gt;
-
-<span class="code-comment"># Buy traffic for validator</span>
-POST /v0/wallet/buy-traffic-requests</code></pre>
-                    </div>
-                    <p style="margin-top: 15px;">
-                        > <a href="https://docs.sync.global/app_dev/validator_api/" target="_blank" style="color: white; text-decoration: underline; font-weight: 900;">Validator API Documentation</a>
-                    </p>
-                </div>
-            </div>
-
-            <!-- dApp API -->
-            <div class="flow-step">
-                <div class="flow-step-number">4</div>
-                <div class="flow-step-content">
-                    <h3>dApp API (Wallet Gateway)</h3>
-                    <p><strong>Standard interface for dApp-to-wallet communication</strong></p>
-                    <ul>
-                        <li>Connect wallets to dApps securely</li>
-                        <li>Request transaction signing from users</li>
-                        <li>Token Standard (CIP0056) integration</li>
-                        <li>External party onboarding and management</li>
-                    </ul>
-                    <div class="code-block">
-<pre><code><span class="code-comment">// dApp requests wallet connection</span>
-<span class="code-keyword">const</span> wallet = <span class="code-keyword">await</span> walletGateway.<span class="code-function">connect</span>();
-
-<span class="code-comment">// Request transaction signature</span>
-<span class="code-keyword">const</span> signed = <span class="code-keyword">await</span> wallet.<span class="code-function">signTransaction</span>(tx);</code></pre>
-                    </div>
-                    <p style="margin-top: 15px;">
-                        > <a href="https://github.com/hyperledger-labs/splice-wallet-kernel" target="_blank" style="color: white; text-decoration: underline; font-weight: 900;">Wallet Kernel GitHub</a>
-                    </p>
-                </div>
-            </div>
-
-            <h3 style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 32px; margin: 60px 0 30px;">API Comparison</h3>
-            
-            <div class="data-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>API</th>
-                            <th>Purpose</th>
-                            <th>Who Uses It</th>
-                            <th>Key Features</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Ledger API</strong><br/><span style="color: var(--text-dim); font-size: 14px;">JSON/gRPC</span></td>
-                            <td>Core contract operations</td>
-                            <td>Application developers</td>
-                            <td>Query contracts, submit transactions, stream updates</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Scan API</strong></td>
-                            <td>Public network data</td>
-                            <td>Block explorers, analytics apps</td>
-                            <td>Canton Coin data, ANS, validator info, mining rounds</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Validator API</strong></td>
-                            <td>Validator & wallet operations</td>
-                            <td>Validator operators, wallet apps</td>
-                            <td>User management, traffic purchase, ANS operations</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Admin API</strong></td>
-                            <td>Node management</td>
-                            <td>Validator operators</td>
-                            <td>Party creation, topology transactions, synchronizer connection</td>
-                        </tr>
-                        <tr>
-                            <td><strong>dApp API</strong></td>
-                            <td>Wallet to dApp bridge</td>
-                            <td>dApp developers</td>
-                            <td>Wallet connection, transaction signing, Token Standard</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- DEVELOPER JOURNEY -->
-        <section id="journey">
-            <div class="section-header">
-                <div class="section-label">05 / DEVELOPER JOURNEY</div>
-                <h2 class="section-title">From Zero to Canton ready</h2>
-                <p class="section-description">
-                    Learn → Development → DevNet → Testnet → MainNet Guide
-                </p>
-            </div>
-
-            <div class="flow-container">
-                <div class="flow-step">
-                    <div class="flow-step-number">1</div>
-                    <h3>Learn the Fundamentals</h3>
-                    <p>
-                        Understand about Canton: Validators with state, Parties as identity, Synchronizers 
-                        for coordination, and Daml for smart contracts. Join the community.
-                    </p>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li>Read official docs: <a href="https://docs.digitalasset.com/" target="_blank" style="color: white; text-decoration: underline;">docs.digitalasset.com</a></li>
-                            <li>Daml Language Reference and tutorials: <a href="https://digitalasset.com/training-and-certification" target="_blank" style="color: white; text-decoration: underline;">digitalasset.com/training-and-certification</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-step-number">2</div>
-                    <h3>Install the SDK</h3>
-                    <p>
-                        Install Digital Asset Package Manager (DPM) for Canton 3.4+ or Daml Assistant for older versions. 
-                        Set up VS Code with Daml highlighting.
-                    </p>
-                    <div class="code-block">
-<pre><code><span class="code-comment"># Install DPM (recommended for Canton 3.4+)</span>
-curl -sSL https://get.daml.com | sh
-
-<span class="code-comment"># Create new project</span>
-dpm new my-canton-app --template daml-intro
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-step-number">3</div>
-                    <h3>Set Up Local Development with Quickstart & Follow Connected Guide</h3>
-                    <p>
-                        The Canton Network Quickstart provides a complete local development environment. Clone the repo and 
-                        run your app locally before deploying to DevNet. Requires Docker with 8GB+ RAM.
-                    </p>
-                    <div class="code-block">
-<pre><code><span class="code-comment"># Clone the quickstart repository</span>
-git clone https://github.com/digital-asset/cn-quickstart.git
-cd cn-quickstart/quickstart
-
-<span class="code-comment"># Setup your environment (choose standard/test mode, OAuth options)</span>
-make setup
-
-<span class="code-comment"># Build the application</span>
-make build
-
-<span class="code-comment"># Start Canton services + your app (first time runs setup assistant)</span>
-make start
-
-<span class="code-comment"># In separate terminals:</span>
-make canton-console  <span class="code-comment"># Canton admin console</span>
-make shell          <span class="code-comment"># Daml shell for testing</span></code></pre>
-                    </div>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li><strong>Note:</strong> As of July 2025, Quickstart uses LocalNet (local network) instead of connecting to DevNet</li>
-                            <li>Minimum 8GB Docker memory required, configure in Docker Desktop settings</li>
-                            <li>Uses Java SDK Eclipse Temurin JDK 21 in containers</li>
-                            <li>Access UIs: app provider.localhost:3000, wallet.localhost:2000, scan.localhost:4000</li>
-                            <li>If issues: <code>make clean all</code> then delete Docker images/volumes</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-step-number">4</div>
-                    <h3>Understand Quickstart Architecture</h3>
-                    <p>
-                        Quickstart runs multiple Canton services in Docker containers. Key modules: splice onboarding (initialization), 
-                        keycloak (OAuth2), pqs (query service), observability, and daml shell. Built on Splice LocalNet.
-                    </p>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li>Modular architecture, enable/disable components via Docker profiles</li>
-                            <li>Single containers serve multiple logical components to reduce resources</li>
-                            <li>Postgres contains multiple databases for Quickstart services</li>
-                            <li>For production: Use Kubernetes, replace automation with manual config steps</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-step-number">5</div>
-                    <h3>Build & Test Your Application</h3>
-                    <p>
-                        Write Daml templates for your use case. Use Vite hot reload for frontend dev (<code>make vite dev</code>). 
-                        Debug backend with JVM remote debugging on port 5005. Use lnav for log analysis.
-                    </p>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li>Frontend: <code>make restart frontend</code> or <code>make start vite dev</code> for hot reload</li>
-                            <li>Backend: <code>export DEBUG_ENABLED=true && make restart backend</code></li>
-                            <li>Logs: Install lnav + Canton format for interactive log viewing</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-step-number">6</div>
-                    <h3>Get Your Validator on DevNet</h3>
-                    <p>
-                        Apply for DevNet Whitelisting.
-                    </p>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li>Set up parties (internal for your app, external for customers)</li>
-                            <li>Deploy your Daml code (upload DAR files)</li>
-                            <li>Test contract creation, choice execution, queries</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-step-number">7</div>
-                    <h3>Build Your Application</h3>
-                    <p>
-                        Write Daml templates for your use case. Implement business logic in choices.
-                    </p>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li>Design data model (templates with fields)</li>
-                            <li>Define authorization (signatories, observers, controllers)</li>
-                            <li>Implement state transitions (choices)</li>
-                            <li>Write Daml scripts for testing</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-step-number">8</div>
-                    <h3>Request TestNet / MainNet Access</h3>
-                    <p>
-                        Once stable on DevNet, request TestNet access via sponsor. Formal approval required. 
-                        Finally, request MainNet whitelisting for production deployment.
-                    </p>
-                    <div class="flow-step-details">
-                        <ul>
-                            <li>Sponsor submits request to Featured Applications committee</li>
-                            <li>Wait for Super Validator on  chain vote</li>
-                            <li>Deploy to TestNet first for final validation</li>
-                            <li>Then request MainNet access for production</li>
-                            <li>Monitor validator health and earn Canton Coin rewards</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <h3 style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 24px; margin: 60px 0 20px;">Key Development Resources</h3>
-
-            <div class="comparison">
-                <div class="comparison-card highlight">
-                    <h3>Quickstart & Documentation</h3>
-                    <ul>
-                        <li>GitHub: <a href="https://github.com/digital-asset/cn-quickstart" target="_blank" style="color: white; text-decoration: underline;">digital-asset/cn-quickstart</a></li>
-                        <li>Built on Splice LocalNet</li>
-                        <li><a href="https://docs.digitalasset.com/" target="_blank" style="color: white; text-decoration: underline;">docs.digitalasset.com</a> for Main docs</li>
-                    </ul>
-                </div>
-
-                <div class="comparison-card">
-                    <h3>Tools & SDKs</h3>
-                    <ul>
-                        <li><a href="https://docs.digitalasset.com/build/3.4/dpm/dpm.html" target="_blank" style="color: white; text-decoration: underline;">Digital Asset Package Manager (DPM)</a></li>
-                        <li><a href="https://docs.digitalasset.com/build/3.4/tutorials/json-api/canton_and_the_json_ledger_api_ts.html" target="_blank" style="color: white; text-decoration: underline;">TypeScript SDK for JSON API</a></li>
-                        <li><a href="https://github.com/digital-asset/dazl-client" target="_blank" style="color: white; text-decoration: underline;">Java/Python gRPC bindings</a></li>
-                    </ul>
-                </div>
-
-                <div class="comparison-card">
-                    <h3>Community</h3>
-                    <ul>
-                        <li>GitHub: <a href="https://github.com/canton-foundation" target="_blank" style="color: white; text-decoration: underline;">Canton Foundation</a></li>
-                        <li>Discord: <a href="https://discord.com/invite/canton" target="_blank" style="color: white; text-decoration: underline;">Canton Discord</a></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- COMPARISON WITH OTHER BLOCKCHAINS -->
-        <section>
-            <div class="section-header">
-                <div class="section-label">06 / COMPARISON</div>
-                <h2 class="section-title">Canton vs. Public Blockchains</h2>
-            </div>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Aspect</th>
-                        <th>Public Blockchains</th>
-                        <th>Canton Network</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Data Distribution</strong></td>
-                        <td>All state replicated to all nodes</td>
-                        <td>Selective distribution only to parties with stake</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Privacy</strong></td>
-                        <td>All transactions visible to all (or ZK proofs)</td>
-                        <td>Privacy by design at protocol level</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Scaling</strong></td>
-                        <td>Network-wide throughput limits</td>
-                        <td>Independent scaling busy apps don't throttle others</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Composability</strong></td>
-                        <td>Within same contract or via bridges</td>
-                        <td>Atomic cross-app transactions with privacy, Managed by Global Synchronizer</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Account Model</strong></td>
-                        <td>Address-based (account or UTXO)</td>
-                        <td>Party-based identity with hosted validators</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Smart Contracts</strong></td>
-                        <td>Solidity, Rust, Move, etc. Model</td>
-                        <td>DAML Model</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Transaction Model</strong></td>
-                        <td>State transitions on shared state</td>
-                        <td>Immutable contracts with choice-based transformations</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+<div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+<header class="topnav" id="topnav">
+  <div class="topnav__inner">
+    <a class="brand" href="#top" aria-label="Canton home">
+      <span class="brand__mark">Canton Network</span>
+      <span class="brand__sub">Onboarding Guide</span>
+    </a>
+    <nav class="topnav__links" aria-label="Primary">
+      <a href="#onboarding">Onboarding & Setup Guide</a>
+      <a href="#devfund">Development Fund</a>
+    </nav>
+    <button class="toc-toggle" id="tocToggle" aria-expanded="false" aria-controls="toc">
+      <span></span><span></span><span></span>
+      Contents
+    </button>
+  </div>
+</header>
+<section class="hero" id="top">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <p class="eyebrow eyebrow--light">Get Started</p>
+    <h1 class="hero__title">CF Onboarding & Dev Fund Guide</h1>
+    <p class="hero__lede">
+      Everything builders, validators, and grant applicants need in one place.
+    </p>
+    <div class="rail" aria-label="Network progression">
+      <div class="rail__track"></div>
+      <div class="rail__stop">
+        <span class="rail__dot"></span>
+        <span class="rail__name">DevNet</span>
+        <span class="rail__role">Build</span>
+      </div>
+      <div class="rail__stop">
+        <span class="rail__dot"></span>
+        <span class="rail__name">TestNet</span>
+        <span class="rail__role">Validate scale</span>
+      </div>
+      <div class="rail__stop rail__stop--last">
+        <span class="rail__dot"></span>
+        <span class="rail__name">MainNet</span>
+        <span class="rail__role">Production Live</span>
+      </div>
     </div>
+    <p class="rail__note">Every participant follows the same progression. All three networks require IP whitelisting.</p>
+  </div>
+</section>
 
-    <footer>
-        <div class="container">
-            <p>
-                <strong>Canton Dev 101</strong> by Jatin, DevRel Manager, Canton Foundation
-            </p>
+<div class="layout">
+  <aside class="toc" id="toc" aria-label="Table of contents">
+    <div class="toc__inner">
+      <p class="toc__label">Onboarding</p>
+      <a href="#paths" class="toc__link">Choose your path</a>
+      <a href="#step-1" class="toc__link">1 · Install the SDK</a>
+      <a href="#step-2" class="toc__link">2 · Local development</a>
+      <a href="#step-3" class="toc__link">3 · Hosting model</a>
+      <a href="#step-4" class="toc__link">4 · Static IP</a>
+      <a href="#step-5" class="toc__link">5 · Find an SV sponsor</a>
+      <a href="#step-6" class="toc__link">6 · Get onto DevNet</a>
+      <a href="#step-7" class="toc__link">7 · TestNet &amp; MainNet</a>
+
+      <p class="toc__label">Development Fund</p>
+      <a href="#fund-what" class="toc__link">What it is</a>
+      <a href="#fund-funded" class="toc__link">What gets funded</a>
+      <a href="#fund-who" class="toc__link">Who can apply</a>
+      <a href="#fund-step-1" class="toc__link">1 · Find a champion</a>
+      <a href="#fund-step-2" class="toc__link">2 · Prepare proposal</a>
+      <a href="#fund-step-3" class="toc__link">3 · Submit PR</a>
+      <a href="#fund-step-4" class="toc__link">4 · Review process</a>
+      <a href="#fund-payment" class="toc__link">Payment &amp; milestones</a>
+
+      <p class="toc__label">Reference</p>
+      <a href="#resources" class="toc__link">All links</a>
+    </div>
+  </aside>
+  <main class="content">
+    <div class="part-marker" id="onboarding">
+      <span class="part-marker__no">Part 1</span>
+      <h2 class="part-marker__title">Builder onboarding</h2>
+      <p class="part-marker__desc">A step-by-step path for builders and validators joining the Canton ecosystem.</p>
+    </div>
+    <section class="section" id="paths">
+      <p class="eyebrow">Before you start</p>
+      <h3 class="section__title">Choose your path</h3>
+      <p class="section__intro">All participants follow the same network progression. Which steps apply depends on what you're here to do. Pick a path to highlight your route through the guide.</p>
+      <div class="cards-2">
+        <article class="pathcard" data-path-card="builder">
+          <h4 class="pathcard__title">App Builder</h4>
+          <p>Install the SDK, build locally, then get whitelisted and deploy through DevNet, TestNet, and Finally MainNet.</p>
+          <p class="pathcard__route" >Steps 1 to 7</p>
+        </article>
+        <article class="pathcard" data-path-card="validator">
+          <h4 class="pathcard__title">Validator only</h4>
+          <p>Skip the SDK and local dev steps. Start at Step 3 (hosting model). Tokenomics Committee approval is required for Setup.</p>
+          <p class="pathcard__route">Steps 3 to 7</p>
+        </article>
+      </div>
+    <section class="section step" id="step-1" data-step-for="builder">
+      <div class="step__head">
+        <span class="step__no">01</span>
+        <div>
+          <p class="eyebrow">App Builders only</p>
+          <h3 class="section__title">Install dpm</h3>
         </div>
-    </footer>
+      </div>
+      <p class="section__intro">Install the Daml Package Manager (DPM).</p>
 
-</body>
+      <div class="terminal" data-copy>
+        <div class="terminal__bar"><span class="terminal__dot"></span><span class="terminal__dot"></span><span class="terminal__dot"></span><span class="terminal__title">install dpm</span><button class="copy-btn" type="button">Copy</button></div>
+        <pre class="terminal__body"><code>curl https://get.digitalasset.com/install/install.sh | sh</code></pre>
+      </div>
+
+      <p class="step__then">Then create a new project:</p>
+      <div class="terminal" data-copy>
+        <div class="terminal__bar"><span class="terminal__dot"></span><span class="terminal__dot"></span><span class="terminal__dot"></span><span class="terminal__title">new project</span><button class="copy-btn" type="button">Copy</button></div>
+        <pre class="terminal__body"><code>dpm new my-project --template daml-intro-contracts</code></pre>
+      </div>
+
+      <ul class="linklist">
+        <li><a href="https://docs.canton.network/sdks-tools/cli-tools/dpm#dpm-daml-package-manager" target="_blank" rel="noopener">Full documentation</a></li>
+      </ul>
+    </section>
+    <section class="section step" id="step-2" data-step-for="builder">
+      <div class="step__head">
+        <span class="step__no">02</span>
+        <div>
+          <p class="eyebrow">App Builders only</p>
+          <h3 class="section__title">Set up local development</h3>
+        </div>
+      </div>
+      <p class="section__intro">Before getting to DevNet, You can try the Canton Network Quickstart to run a LocalNet.</p>
+
+      <div class="reqbox">
+        <p class="reqbox__label">Requirements</p>
+        <p>Docker with <strong>8&nbsp;GB+ RAM</strong> (set in Docker Desktop settings) · Java SDK Eclipse Temurin <strong>JDK&nbsp;21</strong>.</p>
+      </div>
+
+      <div class="terminal" data-copy>
+        <div class="terminal__bar"><span class="terminal__dot"></span><span class="terminal__dot"></span><span class="terminal__dot"></span><span class="terminal__title">quickstart</span><button class="copy-btn" type="button">Copy</button></div>
+        <pre class="terminal__body"><code>git clone https://github.com/digital-asset/cn-quickstart.git
+cd cn-quickstart/quickstart
+make setup    # choose standard/test mode, OAuth options
+make build
+make start    # first run triggers setup assistant</code></pre>
+      </div>
+
+      <p class="step__then">Once running, access the local UIs:</p>
+      <div class="uigrid">
+        <div class="uigrid__item"><span class="uigrid__role">App provider</span><a href="http://app-provider.localhost:3000" target="_blank" rel="noopener">app-provider.localhost:3000</a></div>
+        <div class="uigrid__item"><span class="uigrid__role">Wallet</span><a href="http://wallet.localhost:2000" target="_blank" rel="noopener">wallet.localhost:2000</a></div>
+        <div class="uigrid__item"><span class="uigrid__role">Scan</span><a href="http://scan.localhost:4000" target="_blank" rel="noopener">scan.localhost:4000</a></div>
+      </div>
+    </section>
+    <section class="section step" id="step-3" data-step-for="builder validator">
+      <div class="step__head">
+        <span class="step__no">03</span>
+        <div>
+          <p class="eyebrow">Validator ops can start here</p>
+          <h3 class="section__title">Choose your hosting model</h3>
+        </div>
+      </div>
+      <p class="section__intro">Decide how you want to run your validator node before requesting any network access.</p>
+
+      <div class="cards-2">
+        <article class="optcard">
+          <h4 class="optcard__title">Self-host</h4>
+          <p>You manage all infrastructure, upgrades, and maintenance across every network.</p>
+        </article>
+        <article class="optcard">
+          <h4 class="optcard__title">Node-as-a-Service (NaaS)</h4>
+          <p>A provider handles node operations on your behalf. Costs and data custody vary by provider.</p>
+          <a class="inline-link" href="https://canton.foundation/validators/" target="_blank" rel="noopener">See approved NaaS providers →</a>
+        </article>
+      </div>
+    </section>
+    <section class="section step" id="step-4" data-step-for="builder validator">
+      <div class="step__head">
+        <span class="step__no">04</span>
+        <div>
+          <p class="eyebrow">Infrastructure</p>
+          <h3 class="section__title">Set up a static IP</h3>
+        </div>
+      </div>
+      <p class="section__intro">Your validator node requires a static IP address for all outbound traffic. Provision this before requesting network access, whitelisting is tied to this IP across DevNet, TestNet, and MainNet.</p>
+    </section>
+    <section class="section step" id="step-5" data-step-for="builder validator">
+      <div class="step__head">
+        <span class="step__no">05</span>
+        <div>
+          <p class="eyebrow">Sponsorship</p>
+          <h3 class="section__title">Find a Super Validator sponsor</h3>
+        </div>
+      </div>
+      <p class="section__intro">You need an existing Super Validator (SV) to sponsor your onboarding. Your sponsor will:</p>
+      <ul class="bullets">
+        <li>Submit your TestNet and MainNet whitelisting requests to the Featured Applications and Validators committee.</li>
+        <li>Provide your onboarding secret on TestNet and MainNet (You do NOT need Secert on DevNet) as you cannot self-serve this on live networks.</li>
+        <li>Supply the Canton software packages needed to set up your node.</li>
+      </ul>
+      <p class="section__intro">Browse active Super Validators and reach out directly. Confirm your sponsor <em>before</em> submitting any whitelisting forms — their contact details will be required.</p>
+
+      <div class="callout callout--soft">
+        <span class="callout__tag callout__tag--purple">No sponsor yet?</span>
+        <p>The Canton Foundation can act as your sponsor. Reach out at <a href="https://canton.foundation" target="_blank" rel="noopener">canton.foundation</a>.</p>
+      </div>
+      <ul class="linklist">
+        <li><a href="https://lighthouse.xyz/super-validators" target="_blank" rel="noopener">Super Validator directory</a></li>
+      </ul>
+    </section>
+    <section class="section step" id="step-6" data-step-for="builder validator">
+      <div class="step__head">
+        <span class="step__no">06</span>
+        <div>
+          <p class="eyebrow">Get it Started</p>
+          <h3 class="section__title">Get onto DevNet</h3>
+        </div>
+      </div>
+
+      <div class="substep">
+        <p class="substep__no">6a</p>
+        <div class="substep__body">
+          <h4 class="substep__title">Request DevNet whitelisting</h4>
+          <p>Submit your static IP via the DevNet whitelisting form.</p>
+          <div class="callout callout--warm">
+            <p>Super Validators need to update their config files and conduct an on-chain vote to adopt the new IP.</p>
+          </div>
+          <a class="inline-link" href="https://forms.gle/WEa2HijZQPhMJH8V8" target="_blank" rel="noopener">DevNet whitelisting form →</a>
+        </div>
+      </div>
+
+      <div class="substep">
+        <p class="substep__no">6b</p>
+        <div class="substep__body">
+          <h4 class="substep__title">Set up your node infrastructure</h4>
+          <p>While waiting for whitelisting, prepare your node environment:</p>
+          <ul class="bullets">
+            <li>Provision a VM or Kubernetes cluster (Kubernetes recommended for production).</li>
+            <li>Set up OIDC authentication (Auth0, Keycloak, or equivalent).</li>
+            <li>Download Canton software packages from your SV sponsor.</li>
+          </ul>
+          <ul class="linklist">
+            <li><a href="https://canton.foundation/sv-network-status-2/" target="_blank" rel="noopener">Network status &amp; SV package info</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="substep">
+        <p class="substep__no">6c</p>
+        <div class="substep__body">
+          <h4 class="substep__title">Get your DevNet onboarding secret</h4>
+          <p>Once your IP is whitelisted, get your onboarding secret. On DevNet you can self-serve this:</p>
+          <div class="terminal" data-copy>
+            <div class="terminal__bar"><span class="terminal__dot"></span><span class="terminal__dot"></span><span class="terminal__dot"></span><span class="terminal__title">onboarding secret</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre class="terminal__body"><code>curl -X POST SPONSOR_SV_URL/api/sv/v0/devnet/onboard/validator/prepare</code></pre>
+          </div>
+          <p class="muted">SV URLs are listed at <a href="https://canton.foundation/sv-network-status-2/" target="_blank" rel="noopener">canton.foundation/sv-network-status-2</a>.</p>
+        </div>
+      </div>
+
+      <div class="callout callout--done">
+        <span class="callout__tag callout__tag--success">You're on DevNet</span>
+        <p>You can now set up parties, upload DARs, test token transfers & run onboarding workflows.</p>
+      </div>
+    </section>
+    <section class="section step" id="step-7" data-step-for="builder validator">
+      <div class="step__head">
+        <span class="step__no">07</span>
+        <div>
+          <p class="eyebrow">Going live</p>
+          <h3 class="section__title">Apply for TestNet &amp; MainNet</h3>
+        </div>
+      </div>
+      <p class="section__intro">You can submit your MainNet application while still working on DevNet, the 2 to 3 week approval process runs in parallel, so you don't need to wait until DevNet testing is complete.</p>
+
+      <div class="reqbox">
+        <p class="reqbox__label">Timeline</p>
+        <p>End-to-end approval typically takes <strong>Min 2 to 3 weeks</strong>. Applications go through manual compliance review (banned countries and invalid contacts are rejected), then Tokenomics Committee review on a weekly cadence.</p>
+      </div>
+
+      <div class="cards-2">
+        <article class="optcard">
+          <h4 class="optcard__title">TestNet</h4>
+          <p>Same deployment pattern as DevNet. Your SV sponsor submits the whitelisting request to the Featured Applications and Validators committee. The onboarding secret must come from your sponsor so. no self-serve.</p>
+        </article>
+        <article class="optcard optcard--accent">
+          <h4 class="optcard__title">MainNet</h4>
+          <p>Everything TestNet requires, plus Tokenomics Committee approval. Min. 7 day wait for SVs to adopt config changes via on-chain vote. Once live, your validator is eligible for Canton Coin rewards.</p>
+        </article>
+      </div>
+
+      <ul class="linklist">
+        <li><a href="https://canton.foundation/apply-to-set-up-a-validator-node/" target="_blank" rel="noopener">Validator application form</a></li>
+        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScvKj_oK08G12xMdQU-3cpW6eILvfEDwKSRAiKx79VHqSkTww/viewform" target="_blank" rel="noopener">TestNet / MainNet access request form</a></li>
+      </ul>
+    </section>
+
+    <div class="part-marker part-marker--dark" id="devfund">
+      <span class="part-marker__no">Part 2</span>
+      <h2 class="part-marker__title">The Development Fund</h2>
+      <p class="part-marker__desc">A grant program that funds open development strengthening the Canton Network.</p>
+    </div>
+    <section class="section" id="fund-what">
+      <p class="eyebrow">Overview</p>
+      <h3 class="section__title">What is the Development Fund?</h3>
+      <p class="section__intro">The Canton Development Fund funds open development that strengthens the network. It was established through CIP-0082 and CIP-0100 and is administered by the Canton Foundation as a neutral facilitator.</p>
+      <p class="section__intro">Unlike grant programs at other networks, there is no premine or central treasury. Instead, <strong>5% of Canton Coin emissions</strong> are programmatically reallocated to the fund across the reward streams a durable, predictable source of funding tied directly to network activity. Funding decisions are made by the <strong>Tech &amp; Ops Committee</strong>, with milestone-based payments denominated in Canton Coin.</p>
+      <ul class="linklist">
+        <li><a href="https://github.com/canton-foundation/cips/blob/main/cip-0082/cip-0082.md" target="_blank" rel="noopener">CIP-0082</a></li>
+        <li><a href="https://github.com/canton-foundation/cips/blob/main/cip-0100/cip-0100.md" target="_blank" rel="noopener">CIP-0100</a></li>
+      </ul>
+    </section>
+    <section class="section" id="fund-funded">
+      <p class="eyebrow">Eligibility</p>
+      <h3 class="section__title">What gets funded?</h3>
+      <p class="section__intro">The fund supports work that is a <strong>public good for the Canton ecosystem</strong>, not commercial products, and not work that primarily benefits a single organization.</p>
+      <div class="tag-grid">
+        <span class="tag">Core protocol R&amp;D</span>
+        <span class="tag">Developer tooling &amp; SDKs</span>
+        <span class="tag">Security reviews &amp; audits</span>
+        <span class="tag">Reference implementations</span>
+        <span class="tag">Critical ecosystem infrastructure</span>
+      </div>
+    </section>
+    <section class="section" id="fund-who">
+      <p class="eyebrow">Access</p>
+      <h3 class="section__title">Who can apply?</h3>
+      <div class="cards-2">
+        <article class="optcard">
+          <h4 class="optcard__title">Foundation members &amp; contributors</h4>
+          <p>Canton Foundation members and Tech &amp; Ops contributors can submit proposals directly.</p>
+        </article>
+        <article class="optcard">
+          <h4 class="optcard__title">External teams &amp; individuals</h4>
+          <p>Can also apply, but must be supported by a <strong>Champion</strong> who is a Core Contributor, SIG Member, or member of the Tech &amp; Ops Committee.</p>
+        </article>
+      </div>
+      <p class="muted">If you're external and don't yet have a champion, finding one is your first step.</p>
+    </section>
+    <section class="section step" id="fund-step-1">
+      <div class="step__head">
+        <span class="step__no">01</span>
+        <div>
+          <p class="eyebrow">Development Fund</p>
+          <h3 class="section__title">Find a champion</h3>
+        </div>
+      </div>
+      <p class="section__intro">A champion vouches for your proposal, helps you refine it, and guides it through review. Champions aren't responsible for delivering the work, they help ensure the proposal reaches the bar the committee expects.</p>
+
+      <div class="reqbox">
+        <p class="reqbox__label">Who can be a champion</p>
+        <p>A Tech &amp; Ops Voting Committee Member Organization or an SIG Member or a Core Contributors Group Member. SIGs help the committee, Core Contributors, and Voting groups evaluate proposals, SIG members can champion directly or connect you to a potential champion.</p>
+      </div>
+
+      <p class="step__then">To find a champion:</p>
+      <ul class="bullets">
+        <li>Cross-reference the SIG Directory to find named individuals with expertise relevant to your work, the best signal of who is engaged in your area.</li>
+        <li>Or reach out via approved GitHub PRs to the championing organizations in them. Be specific: describe your proposal in 2 to 3 sentences and ask whether they'd be willing to champion it.</li>
+      </ul>
+      <ul class="linklist">
+        <li><a href="https://github.com/canton-foundation/canton-dev-fund/blob/main/sig-directory.md" target="_blank" rel="noopener">SIG Directory</a></li>
+      </ul>
+    </section>
+    <section class="section step" id="fund-step-2">
+      <div class="step__head">
+        <span class="step__no">02</span>
+        <div>
+          <p class="eyebrow">Development Fund</p>
+          <h3 class="section__title">Prepare your proposal</h3>
+        </div>
+      </div>
+      <p class="section__intro">All proposals are submitted as Markdown files via Pull Request to the canton-dev-fund repository's <code>proposals/</code> directory. Use the PR template at <code>.github/pull_request_template.md</code> and don't skip sections. It requires:</p>
+      <ul class="bullets">
+        <li><strong>Objective and scope</strong>: what problem does this solve, and for whom?</li>
+        <li><strong>Technical approach</strong>: how will the work be implemented, in depth?</li>
+        <li><strong>Architectural alignment</strong>: how does it fit Canton's architecture and priorities?</li>
+        <li><strong>Milestones and deliverables</strong>: what will be produced, and by when?</li>
+        <li><strong>Acceptance criteria</strong>: how will reviewers objectively verify each milestone?</li>
+        <li><strong>Funding request</strong>: how much $CC per milestone?</li>
+      </ul>
+
+      <h4 class="subhead">What makes a strong proposal</h4>
+      <div class="quality-list">
+        <div class="quality">
+          <p class="quality__name">Public good framing</p>
+          <p>Clearly explain the shared benefit to the ecosystem. If the primary output is a commercial product, it won't pass the public good gate regardless of technical quality.</p>
+        </div>
+        <div class="quality">
+          <p class="quality__name">Objectively verifiable acceptance criteria</p>
+          <p>Each milestone needs criteria an independent reviewer can check without your attestation. "A working indexer with documented API endpoints and integration tests" is verifiable. "A high-quality solution" is not.</p>
+        </div>
+        <div class="quality">
+          <p class="quality__name">Sustainability</p>
+          <p>Explain who will operate and maintain the output after the grant period ends. Reviewers want a credible answer, not a vague commitment.</p>
+        </div>
+        <div class="quality">
+          <p class="quality__name">GTM &amp; adoption strategy</p>
+          <p>Mandatory, not optional. Adoption is the primary indicator of success. Be specific on target users, how they'll discover the tool, and what initial adoption looks like.</p>
+        </div>
+        <div class="quality">
+          <p class="quality__name">Milestone based structure</p>
+          <p>Organize work into discrete milestones with payment tied to completion.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section step" id="fund-step-3">
+      <div class="step__head">
+        <span class="step__no">03</span>
+        <div>
+          <p class="eyebrow">Development Fund</p>
+          <h3 class="section__title">Submit your Pull Request</h3>
+        </div>
+      </div>
+      <p class="section__intro">Once your proposal document is ready:</p>
+      <ol class="ordered">
+        <li>Fork the canton-dev-fund repository.</li>
+        <li>Add your proposal as a Markdown file under <code>proposals/&lt;project-name&gt;.md</code>.</li>
+        <li>Open a Pull Request.</li>
+      </ol>
+      <ul class="linklist">
+        <li><a href="https://github.com/canton-foundation/canton-dev-fund" target="_blank" rel="noopener">canton-dev-fund repository</a></li>
+      </ul>
+    </section>
+    <section class="section step" id="fund-step-4">
+      <div class="step__head">
+        <span class="step__no">04</span>
+        <div>
+          <p class="eyebrow">Development Fund</p>
+          <h3 class="section__title">The review process</h3>
+        </div>
+      </div>
+
+      <h4 class="subhead">SIG review</h4>
+      <p class="section__intro">Special Interest Groups (SIGs) are architects, engineers, and domain experts organized by technical area, from Daml Language &amp; Developer Tooling to DeFi Protocols, Token Standards, and Node Operations. SIG members may self-assign your proposal and provide feedback. Indicate in your PR which SIG you believe your proposal aligns with so the right reviewers find it quickly. SIG membership is open to any ecosystem participant.</p>
+
+      <h4 class="subhead">Why a proposal moves to "Needs Revision"</h4>
+      <ul class="bullets">
+        <li>Milestones are unclear or not measurable.</li>
+        <li>Scope is too broad or underspecified.</li>
+        <li>Ecosystem benefit is not clearly demonstrated.</li>
+        <li>Adoption metrics, GTM, or success criteria are missing.</li>
+        <li>Security or operational implications need clarification.</li>
+      </ul>
+      <p class="muted">Reviewers leave specific feedback in the PR. Address comments by updating the proposal file directly, and it re-enters the review queue.</p>
+
+      <h4 class="subhead">Moving toward a vote</h4>
+      <p class="section__intro">When a champion believes the proposal is ready, it moves to <strong>Ready for Vote</strong>, reviewed by Voting Committee members, Core Contributors, and the Security Group, giving all reviewers time to read and comment before voting begins.</p>
+
+      <div class="callout callout--soft">
+        <span class="callout__tag callout__tag--purple">Track your status</span>
+        <p>The official proposal board is the authoritative source of truth. Columns include In Review, Needs Champion, Needs Revision, and Ready for Vote.</p>
+      </div>
+      <ul class="linklist">
+        <li><a href="https://github.com/orgs/canton-foundation/projects/3/views/1" target="_blank" rel="noopener">Proposal tracking board</a></li>
+      </ul>
+    </section>
+    <section class="section" id="fund-payment">
+      <p class="eyebrow">Funding</p>
+      <h3 class="section__title">Payment &amp; milestones</h3>
+      <ul class="bullets">
+        <li>Funding is denominated and paid in <strong>Canton Coin (CC)</strong>.</li>
+        <li>Funding may be paused or stopped if milestones are not met or are disputed.</li>
+        <li>The committee may issue Requests for Proposals (RFPs) for strategic work, watch Foundation channels for announcements.</li>
+      </ul>
+    </section>
+
+    <section class="section resources" id="resources">
+      <p class="eyebrow">Reference</p>
+      <h3 class="section__title">All links in one place</h3>
+
+      <div class="res-group">
+        <p class="res-group__label">Onboarding</p>
+        <div class="res-grid">
+          <a class="res" href="https://docs.canton.network/global-synchronizer/deployment/onboarding-process" target="_blank" rel="noopener"><span class="res__name">Validator Onboarding Docs</span><span class="res__url">docs.canton.network</span></a>
+          <a class="res" href="https://canton.foundation/validators/" target="_blank" rel="noopener"><span class="res__name">NaaS / Validator Providers</span><span class="res__url">canton.foundation/validators</span></a>
+          <a class="res" href="https://canton.foundation/apply-to-set-up-a-validator-node/" target="_blank" rel="noopener"><span class="res__name">Validator Application Form</span><span class="res__url">canton.foundation</span></a>
+          <a class="res" href="https://forms.gle/WEa2HijZQPhMJH8V8" target="_blank" rel="noopener"><span class="res__name">DevNet IP Whitelisting Form</span><span class="res__url">forms.gle</span></a>
+          <a class="res" href="https://docs.google.com/forms/d/e/1FAIpQLScvKj_oK08G12xMdQU-3cpW6eILvfEDwKSRAiKx79VHqSkTww/viewform" target="_blank" rel="noopener"><span class="res__name">TestNet / MainNet Access Form</span><span class="res__url">docs.google.com</span></a>
+          <a class="res" href="https://github.com/digital-asset/cn-quickstart" target="_blank" rel="noopener"><span class="res__name">Canton Quickstart Repo</span><span class="res__url">github.com/digital-asset</span></a>
+          <a class="res" href="https://docs.canton.network/" target="_blank" rel="noopener"><span class="res__name">Developer Docs</span><span class="res__url">docs.canton.network</span></a>
+          <a class="res" href="https://forum.canton.network/" target="_blank" rel="noopener"><span class="res__name">Canton Support Forum</span><span class="res__url">forum.canton.network</span></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <p class="res-group__label">Development Fund</p>
+        <div class="res-grid">
+          <a class="res" href="https://github.com/canton-foundation/canton-dev-fund" target="_blank" rel="noopener"><span class="res__name">Dev Fund Repository</span><span class="res__url">github.com/canton-foundation</span></a>
+          <a class="res" href="https://github.com/orgs/canton-foundation/projects/3/views/1" target="_blank" rel="noopener"><span class="res__name">Proposal Tracking Board</span><span class="res__url">github.com/orgs/canton-foundation</span></a>
+          <a class="res" href="https://github.com/canton-foundation/canton-dev-fund/blob/main/sig-directory.md" target="_blank" rel="noopener"><span class="res__name">SIG Directory</span><span class="res__url">github.com/canton-foundation</span></a>
+          <a class="res" href="https://canton.foundation/about-the-foundation/" target="_blank" rel="noopener"><span class="res__name">Canton Foundation Members</span><span class="res__url">canton.foundation</span></a>
+          <a class="res" href="https://lists.sync.global/g/grants-discuss" target="_blank" rel="noopener"><span class="res__name">General Dev Fund Discussion</span><span class="res__url">lists.sync.global</span></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+<footer class="footer">
+  <div class="footer__inner">
+    <span class="brand brand--footer">
+      <span class="brand__mark"></span>Canton Foundation</span>
+    </span>
+    <p class="footer__note">Builder Onboarding &amp; Development Fund Reference guide.</p>
+    <a class="footer__site" href="https://www.canton.foundation" target="_blank" rel="noopener">canton.foundation</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard</div>
+
 <script src="script.js"></script>
+</body>
 </html>
